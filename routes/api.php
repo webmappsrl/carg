@@ -13,3 +13,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/config.json', function () {
+    return redirect('https://geohub.webmapp.it/api/app/webmapp/55/config.json');
+});
+Route::get('/pois.json', [App\Http\Controllers\PoisController::class, 'fetchAndTransformPois']);
