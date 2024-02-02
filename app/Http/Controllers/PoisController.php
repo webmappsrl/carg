@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Http;
 
 class PoisController extends Controller
 {
-
     //creare api che torna carg.dev.maphub.it/api/pois.json
-    //-> questo controller deve fare il merge di tutte le features presenti in ogni geojson "geologia punti" 
+    //-> questo controller deve fare il merge di tutte le features presenti in ogni geojson "geologia punti"
     //nelle properties di ogni features devi inserire l'id del foglio sheet_id
     public function fetchAndTransformPois()
     {
@@ -20,7 +19,7 @@ class PoisController extends Controller
         $response = Http::get($url);
         $featureCollection = json_decode($response->body(), true);
 
-        //da dove prendo id del foglio sheet_id? 
+        //da dove prendo id del foglio sheet_id?
         //per il momento ne creo uno nuovo
         $sheet = Sheet::create();
 
