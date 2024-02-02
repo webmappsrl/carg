@@ -13,6 +13,6 @@ class Sheet extends Model
         'carg_code',
         'raster_source',
         'areas',
-        'pois'
+        'pois',
     ];
 }
