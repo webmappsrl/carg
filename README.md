@@ -22,7 +22,7 @@ Important NOTE: remember to checkout the develop branch.
 cd ${instance name}
 bash docker/init-docker.sh
 docker exec -u 0 -it php81_${instance name} bash
-chown -R 33 storage
+chown -R 33 .
 ```
 
 *Important NOTE*: if you have installed XDEBUG you need to create the xdebug.log file on the docker:
