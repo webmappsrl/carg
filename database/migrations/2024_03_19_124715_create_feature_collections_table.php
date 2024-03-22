@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -12,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sheets', function (Blueprint $table) {
+        Schema::create('feature_collections', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('sheet_id')->nullable();
+            $table->string('type'); //check tipo enum
+            $table->string('geojson_path')->nullable();
+            $table->foreign('sheet_id')->references('id')->on('sheets')->onDelete('cascade');
             $table->timestamps();
-            $table->string('carg_code')->nullable();
-            $table->multiPolygon('geometry')->nullable();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sheets');
+        Schema::dropIfExists('feature_collections');
     }
 };

@@ -1,0 +1,132 @@
+<?php
+
+namespace App\Nova;
+
+use App\Models\Sheet as ModelsSheet;
+use Laravel\Nova\Fields\hasOne;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\ResourceDetailRequest;
+use Wm\MapMultiPolygon\MapMultiPolygon;
+
+class Sheet extends Resource
+{
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var string
+     */
+    public static $model = \App\Models\Sheet::class;
+
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'carg_code';
+
+    /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [
+        'id', 'carg_code',
+    ];
+
+    /**
+     * Get the fields displayed by the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function fields(NovaRequest $request)
+    {
+        return [
+            ID::make()->sortable(),
+            Text::make(__('Carg code'), 'carg_code')
+                ->sortable()
+                ->rules('required', 'max:255'),
+            MapMultiPolygon::make(__('BBOX'), 'geometry')->withMeta([
+                'center' => ['42.795977075', '10.326813853'],
+                'attribution' => 'carg',
+                'tiles' => 'https://tiles.webmapp.it/carg/{z}/{x}/{y}.png',
+                'minZoom' => 10.5,
+            ]),
+            hasOne::make(__('Geology Points'), 'geologyPoints', GeologyPointsFeatureCollection::class)
+                ->showOnDetail(function (ResourceDetailRequest $request, ModelsSheet $sheet) {
+                    return isset($sheet->geologyPoints);
+                }),
+            hasOne::make(__('Geology Lines'), 'geologyLines', GeologyLinesFeatureCollection::class)
+                ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
+                    return isset($sheet->geologyLines);
+                }),
+            hasOne::make(__('Geology Polygons'), 'geologyPolygons', GeologyPolygonsFeatureCollection::class)
+                ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
+                    return isset($sheet->geologyLines);
+                }),
+            hasOne::make(__('Geomorfology Points'), 'geomorfologyPoints', GeomorfologyPointsFeatureCollection::class)
+                ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
+                    return isset($sheet->geomorfologyPoints);
+                }),
+            hasOne::make(__('Geomorfology Lines'), 'geomorfologyLines', GeomorfologyLinesFeatureCollection::class)
+                ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
+                    return isset($sheet->geomorfologyLines);
+                }),
+            hasOne::make(__('Geomorfology Polygons'), 'geomorfologyPolygons', GeomorfologyPolygonsFeatureCollection::class)
+                ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
+                    return isset($sheet->geomorfologyPolygons);
+                }),
+            hasOne::make(__('Resource Prospections'), 'resourceProspections', ResourceProspectionsFeatureCollection::class)
+                ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
+                    return isset($sheet->resourceProspections);
+                }),
+
+        ];
+    }
+
+    /**
+     * Get the cards available for the request.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function cards(NovaRequest $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the filters available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function filters(NovaRequest $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the lenses available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function lenses(NovaRequest $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request)
+    {
+        return [];
+    }
+}

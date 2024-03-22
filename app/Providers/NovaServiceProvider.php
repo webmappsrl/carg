@@ -2,9 +2,15 @@
 
 namespace App\Providers;
 
+use App\Nova\ConfFeatureCollection;
+use App\Nova\FeatureCollection;
+use App\Nova\Sheet;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Menu\MenuSection;
+use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Illuminate\Http\Request;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -16,6 +22,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+        Nova::withBreadcrumbs(true);
+        Nova::mainMenu(function (Request $request) {
+            return [
+                MenuSection::make('Settings', [
+                    MenuItem::resource(ConfFeatureCollection::class),
+                ])->icon('adjustments')->collapsable(),
+                MenuSection::make('Data', [
+                    MenuItem::resource(Sheet::class),
+                    MenuItem::resource(FeatureCollection::class),
+                ])->icon('database')->collapsable(),
+            ];
+        });
     }
 
     /**

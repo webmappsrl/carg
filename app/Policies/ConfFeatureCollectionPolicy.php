@@ -2,11 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Sheet;
+use App\Models\ConfFeatureCollection;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
-class SheetPolicy
+class ConfFeatureCollectionPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +18,7 @@ class SheetPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Sheet $sheet): bool
+    public function view(User $user, ConfFeatureCollection $confFeatureCollection): bool
     {
         return true;
     }
@@ -29,13 +28,13 @@ class SheetPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Sheet $sheet): bool
+    public function update(User $user, ConfFeatureCollection $confFeatureCollection): bool
     {
         return true;
     }
@@ -43,15 +42,15 @@ class SheetPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Sheet $sheet): bool
+    public function delete(User $user, ConfFeatureCollection $confFeatureCollection): bool
     {
-        return true;
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Sheet $sheet): bool
+    public function restore(User $user, ConfFeatureCollection $confFeatureCollection): bool
     {
         return true;
     }
@@ -59,7 +58,7 @@ class SheetPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Sheet $sheet): bool
+    public function forceDelete(User $user, ConfFeatureCollection $confFeatureCollection): bool
     {
         return true;
     }
