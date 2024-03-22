@@ -17,7 +17,7 @@ class Sheet extends Resource
      *
      * @var string
      */
-    public static $model = \App\Models\Sheet::class;
+    public static $model = ModelsSheet::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

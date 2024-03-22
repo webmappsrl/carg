@@ -5,12 +5,12 @@ namespace App\Providers;
 use App\Nova\ConfFeatureCollection;
 use App\Nova\FeatureCollection;
 use App\Nova\Sheet;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use Illuminate\Http\Request;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {

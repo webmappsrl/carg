@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use  \App\Models\User;
+use App\Models\User;
+use  Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('webmapp123'),
         ]);
         $this->call([
-            ConfFeatureCollectionSeeder::class
+            ConfFeatureCollectionSeeder::class,
         ]);
     }
 }

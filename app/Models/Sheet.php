@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Enums\FeatureCollectionType;
 use App\Models\FeatureCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Sheet extends Model
 {
@@ -15,7 +15,6 @@ class Sheet extends Model
         'carg_code',
         'geometry',
     ];
-
 
     public function geologyPoints()
     {

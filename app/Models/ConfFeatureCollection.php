@@ -11,5 +11,6 @@ class ConfFeatureCollection extends Model
     use HasFactory, HasTranslations;
 
     public $translatable = ['label'];
+
     protected $fillable = ['svg_path'];
 }

@@ -2,14 +2,14 @@
 
 namespace App\Nova;
 
-use App\Rules\ValidGeoJSON;
 use App\Enums\FeatureCollectionType;
+use App\Rules\ValidGeoJSON;
 use Exception;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Wm\MapMultiPolygon\MapMultiPolygon;
 
@@ -43,7 +43,7 @@ class FeatureCollection extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function fields(Request $request)
@@ -54,14 +54,14 @@ class FeatureCollection extends Resource
                 ->options(FeatureCollectionType::asSelectArray())
                 ->withMeta(['value' => $this->type])
                 ->default($this->type),
-            ...$this->jsonField($request)
+            ...$this->jsonField($request),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -72,7 +72,7 @@ class FeatureCollection extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -83,7 +83,7 @@ class FeatureCollection extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -94,22 +94,22 @@ class FeatureCollection extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         return [];
     }
-    public  function  getGeojson($path)
+
+    public function getGeojson($path)
     {
         // Assumi che il valore di $resource->features sia il percorso del file JSON.
         // Adatta questa logica se il percorso o il modo in cui salvi i file è diverso.
-        $path = storage_path('app/' . $path);
+        $path = storage_path('app/'.$path);
         try {
-
             if (file_exists($path)) {
-                return (file_get_contents($path));
+                return file_get_contents($path);
             }
         } catch (Exception $e) {
             return '{}';
@@ -117,16 +117,18 @@ class FeatureCollection extends Resource
 
         return '{}'; // Restituisci un oggetto JSON vuoto se il file non esiste.
     }
+
     public function jsonField(NovaRequest $request)
     {
         $geojson = $this->getGeojson($this->geojson_path);
+
         return [
             File::make('Carica JSON', 'geojson_path') // Usa 'geojson_path' invece di 'features'
                 ->disk('local') // Assicurati di usare il disco corretto
                 ->path('feature-collections')
                 ->storeAs(function (Request $request) {
                     // Genera un nome di file univoco
-                    return 'feature-collections-' . md5($request->geojson_path . microtime()) . '.json';
+                    return 'feature-collections-'.md5($request->geojson_path.microtime()).'.json';
                 })
                 ->acceptedTypes('.json')
                 ->hideFromIndex()
@@ -137,7 +139,7 @@ class FeatureCollection extends Resource
                 'attribution' => 'carg',
                 'tiles' => 'https://tiles.webmapp.it/carg/{z}/{x}/{y}.png',
                 'minZoom' => 10.5,
-                'geojson' => $geojson
+                'geojson' => $geojson,
             ])
                 ->onlyOnDetail(),
             Code::make('Geojson', 'geojson_path')
@@ -145,16 +147,15 @@ class FeatureCollection extends Resource
                 //->rules('required', 'json', new ValidGeoJSON)
                 ->onlyOnDetail()
                 ->hideFromDetail(function ($request) {
-                    $isFeatureCollection = !strpos($request->headers->get('referer'), 'feature-collections/');
+                    $isFeatureCollection = ! strpos($request->headers->get('referer'), 'feature-collections/');
 
                     return $isFeatureCollection;
                 })
                 ->resolveUsing(function ($value, $resource, $attribute) {
                     // Assumi che il valore di $resource->features sia il percorso del file JSON.
                     // Adatta questa logica se il percorso o il modo in cui salvi i file è diverso.
-                    $path = storage_path('app/' . $resource->geojson_path);
+                    $path = storage_path('app/'.$resource->geojson_path);
                     try {
-
                         if (file_exists($path)) {
                             return file_get_contents($path);
                         }

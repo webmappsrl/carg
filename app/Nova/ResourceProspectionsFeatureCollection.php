@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class ResourceProspectionsFeatureCollection extends FeatureCollection
 {
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -17,6 +16,7 @@ class ResourceProspectionsFeatureCollection extends FeatureCollection
     public function fields(Request $request)
     {
         $this->type = FeatureCollectionType::ResourceProspections->value;
+
         return parent::fields($request);
     }
 }

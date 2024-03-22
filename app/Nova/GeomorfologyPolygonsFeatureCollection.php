@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class GeomorfologyPolygonsFeatureCollection extends FeatureCollection
 {
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -17,6 +16,7 @@ class GeomorfologyPolygonsFeatureCollection extends FeatureCollection
     public function fields(Request $request)
     {
         $this->type = FeatureCollectionType::GeomorfologyPolygons->value;
+
         return parent::fields($request);
     }
 }

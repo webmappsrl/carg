@@ -20,18 +20,21 @@ class ValidGeoJSON implements ValidationRule
         // Verifica se json_decode ha restituito un errore
         if (json_last_error() !== JSON_ERROR_NONE) {
             $fail('Il campo :attribute non è un JSON valido.');
+
             return;
         }
 
         // Implementa qui la logica specifica per verificare se è una FeatureCollection GeoJSON valida
         // Questo è un esempio basilare. Potresti voler aggiungere controlli più rigorosi.
-        if (!isset($data['type']) || $data['type'] !== 'FeatureCollection') {
+        if (! isset($data['type']) || $data['type'] !== 'FeatureCollection') {
             $fail('Il campo :attribute deve essere di tipo FeatureCollection.');
+
             return;
         }
 
-        if (!isset($data['features']) || !is_array($data['features'])) {
+        if (! isset($data['features']) || ! is_array($data['features'])) {
             $fail('Il campo :attribute deve contenere un array di feature.');
+
             return;
         }
 

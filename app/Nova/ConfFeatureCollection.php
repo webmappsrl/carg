@@ -3,16 +3,16 @@
 namespace App\Nova;
 
 use App\Enums\FeatureCollectionType;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
+use Laravel\Nova\Fields\Color;
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Color;
-use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
-use Laravel\Nova\Fields\Number;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ConfFeatureCollection extends Resource
 {
@@ -36,13 +36,13 @@ class ConfFeatureCollection extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'id', 'name',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -53,19 +53,20 @@ class ConfFeatureCollection extends Resource
                 ->options(FeatureCollectionType::asSelectArray())
                 ->displayUsingLabels(),
             NovaTabTranslatable::make([
-                Text::make(__('Label'), 'label')
+                Text::make(__('Label'), 'label'),
             ]),
             Color::make('Fill Color')->hideWhenCreating(),
             Color::make('Stroke Color'),
             Number::make('Stroke width')->hideWhenCreating(),
             Text::make('Icon', 'svg_path', function () {
                 $url = Storage::disk('public')->url($this->svg_path);
+
                 return "<object data='{$url}' width='300' height='300'></object>";
             })->asHtml()->onlyOnDetail(),
             File::make('SVG File', 'svg_path')
                 ->disk('public')
                 ->storeAs(function (Request $request) {
-                    return $request->type . '.svg';
+                    return $request->type.'.svg';
                 })
                 ->path('icons')
                 ->rules('required', 'mimes:svg', 'max:1024'),
@@ -75,7 +76,7 @@ class ConfFeatureCollection extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -86,7 +87,7 @@ class ConfFeatureCollection extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -97,7 +98,7 @@ class ConfFeatureCollection extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -108,7 +109,7 @@ class ConfFeatureCollection extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
