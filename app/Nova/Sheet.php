@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Sheet as ModelsSheet;
-use Laravel\Nova\Fields\hasOne;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -54,31 +54,31 @@ class Sheet extends Resource
                 'tiles' => 'https://tiles.webmapp.it/carg/{z}/{x}/{y}.png',
                 'minZoom' => 10.5,
             ]),
-            hasOne::make(__('Geology Points'), 'geologyPoints', GeologyPointsFeatureCollection::class)
+            HasOne::make(__('Geology Points'), 'geologyPoints', GeologyPointsFeatureCollection::class)
                 ->showOnDetail(function (ResourceDetailRequest $request, ModelsSheet $sheet) {
                     return isset($sheet->geologyPoints);
                 }),
-            hasOne::make(__('Geology Lines'), 'geologyLines', GeologyLinesFeatureCollection::class)
+            HasOne::make(__('Geology Lines'), 'geologyLines', GeologyLinesFeatureCollection::class)
                 ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
                     return isset($sheet->geologyLines);
                 }),
-            hasOne::make(__('Geology Polygons'), 'geologyPolygons', GeologyPolygonsFeatureCollection::class)
+            HasOne::make(__('Geology Polygons'), 'geologyPolygons', GeologyPolygonsFeatureCollection::class)
                 ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
                     return isset($sheet->geologyLines);
                 }),
-            hasOne::make(__('Geomorfology Points'), 'geomorfologyPoints', GeomorfologyPointsFeatureCollection::class)
+            HasOne::make(__('Geomorfology Points'), 'geomorfologyPoints', GeomorfologyPointsFeatureCollection::class)
                 ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
                     return isset($sheet->geomorfologyPoints);
                 }),
-            hasOne::make(__('Geomorfology Lines'), 'geomorfologyLines', GeomorfologyLinesFeatureCollection::class)
+            HasOne::make(__('Geomorfology Lines'), 'geomorfologyLines', GeomorfologyLinesFeatureCollection::class)
                 ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
                     return isset($sheet->geomorfologyLines);
                 }),
-            hasOne::make(__('Geomorfology Polygons'), 'geomorfologyPolygons', GeomorfologyPolygonsFeatureCollection::class)
+            HasOne::make(__('Geomorfology Polygons'), 'geomorfologyPolygons', GeomorfologyPolygonsFeatureCollection::class)
                 ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
                     return isset($sheet->geomorfologyPolygons);
                 }),
-            hasOne::make(__('Resource Prospections'), 'resourceProspections', ResourceProspectionsFeatureCollection::class)
+            HasOne::make(__('Resource Prospections'), 'resourceProspections', ResourceProspectionsFeatureCollection::class)
                 ->showOnDetail(function (ResourceDetailRequest $request, $sheet) {
                     return isset($sheet->resourceProspections);
                 }),
