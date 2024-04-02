@@ -23,8 +23,8 @@ class SheetController extends Controller
                 $featureCollections = [];
                 foreach ($relations as $relation) {
                     $featureCollection = $sheet->$relation;
-                    if ($featureCollection) {
-                        $featureCollections[$relation] = url('storage/'.$featureCollection->geojson_path);
+                    if (isset($featureCollection) && isset($featureCollection->geojson_path)) {
+                        $featureCollections[$relation] = url('storage/' . $featureCollection->geojson_path);
                     }
                 }
 
