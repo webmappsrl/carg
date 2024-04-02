@@ -2,65 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSheetRequest;
-use App\Http\Requests\UpdateSheetRequest;
 use App\Models\Sheet;
+use Illuminate\Support\Facades\DB;
 
 class SheetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function get()
     {
-        //
-    }
+        $relations = ['geologyPoints', 'geologyLines', 'geologyPolygons', 'geomorfologyPoints', 'geomorfologyLines', 'geomorfologyPolygons', 'resourceProspections'];
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        $sheets = Sheet::with($relations)
+            ->select(
+                'id',
+                'carg_code',
+                DB::raw('ST_AsGeoJSON(geometry) as geojson')
+            )->get();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreSheetRequest $request)
-    {
-        //
-    }
+        $features = $sheets
+            ->map(function ($sheet) use ($relations) {
+                $featureCollections = [];
+                foreach ($relations as $relation) {
+                    $featureCollection = $sheet->$relation;
+                    if ($featureCollection) {
+                        $featureCollections[$relation] = url('storage/' . $featureCollection->geojson_path);
+                    }
+                }
+                return [
+                    'type' => 'Feature',
+                    'geometry' => json_decode($sheet->geojson),
+                    'properties' => [
+                        'id' => $sheet->id,
+                        'carg_code' => $sheet->carg_code,
+                        'featureCollections' => $featureCollections
+                    ],
+                ];
+            });
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Sheet $sheet)
-    {
-        //
-    }
+        $featureCollection = [
+            'type' => 'FeatureCollection',
+            'features' => $features,
+        ];
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Sheet $sheet)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSheetRequest $request, Sheet $sheet)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Sheet $sheet)
-    {
-        //
+        return response()->json($featureCollection);
     }
 }
