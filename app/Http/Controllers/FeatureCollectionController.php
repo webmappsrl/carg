@@ -9,6 +9,7 @@ class FeatureCollectionController extends Controller
     public function get($id)
     {
         $featureCollection = FeatureCollection::findOrFail($id);
+
         return response()->json($featureCollection);
     }
 }
