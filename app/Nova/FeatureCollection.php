@@ -106,7 +106,7 @@ class FeatureCollection extends Resource
     {
         // Assumi che il valore di $resource->features sia il percorso del file JSON.
         // Adatta questa logica se il percorso o il modo in cui salvi i file è diverso.
-        $path = storage_path('app/' . $path);
+        $path = storage_path('app/'.$path);
         try {
             if (file_exists($path)) {
                 return file_get_contents($path);
@@ -128,7 +128,7 @@ class FeatureCollection extends Resource
                 ->path('public/feature-collections')
                 ->storeAs(function (Request $request) {
                     // Genera un nome di file univoco
-                    return 'feature-collections-' . md5($request->geojson_path . microtime()) . '.json';
+                    return 'feature-collections-'.md5($request->geojson_path.microtime()).'.json';
                 })
                 ->acceptedTypes('.json')
                 ->hideFromIndex()
@@ -147,14 +147,14 @@ class FeatureCollection extends Resource
                 //->rules('required', 'json', new ValidGeoJSON)
                 ->onlyOnDetail()
                 ->hideFromDetail(function ($request) {
-                    $isFeatureCollection = !strpos($request->headers->get('referer'), 'feature-collections/');
+                    $isFeatureCollection = ! strpos($request->headers->get('referer'), 'feature-collections/');
 
                     return $isFeatureCollection;
                 })
                 ->resolveUsing(function ($value, $resource, $attribute) {
                     // Assumi che il valore di $resource->features sia il percorso del file JSON.
                     // Adatta questa logica se il percorso o il modo in cui salvi i file è diverso.
-                    $path = storage_path('app/' . $resource->geojson_path);
+                    $path = storage_path('app/'.$resource->geojson_path);
                     try {
                         if (file_exists($path)) {
                             return file_get_contents($path);
