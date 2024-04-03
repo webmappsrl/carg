@@ -52,7 +52,7 @@ class Sheet extends Resource
                 'center' => ['42.795977075', '10.326813853'],
                 'attribution' => 'carg',
                 'tiles' => 'https://tiles.webmapp.it/carg/{z}/{x}/{y}.png',
-                'minZoom' => 10.5,
+                'minZoom' => 6,
             ]),
             HasOne::make(__('Geology Points'), 'geologyPoints', GeologyPointsFeatureCollection::class)
                 ->showOnDetail(function (ResourceDetailRequest $request, ModelsSheet $sheet) {
