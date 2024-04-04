@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/config.json', function () {
-    return redirect('https://geohub.webmapp.it/api/app/webmapp/55/config.json');
-});
+Route::get('app/webmapp/55/config.json', [App\Http\Controllers\FeatureCollectionController::class, 'conf'])->name('api.feature-collections.conf');
 Route::get('/sheets.json', [App\Http\Controllers\SheetController::class, 'get']);
 Route::get('/feature-collections/{id}', [App\Http\Controllers\FeatureCollectionController::class, 'get'])->name('api.feature-collections.get');

@@ -133,7 +133,7 @@ class FeatureCollection extends Resource
                 ->acceptedTypes('.json')
                 ->hideFromIndex()
                 ->hideFromDetail(),
-
+            // formato SR predefinito: EPSG:4326 - WGS 84
             MapMultiPolygon::make('map')->withMeta([
                 'center' => ['42.795977075', '10.326813853'],
                 'attribution' => 'carg',
