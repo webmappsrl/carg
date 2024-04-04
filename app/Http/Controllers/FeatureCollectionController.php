@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FeatureCollection;
 use App\Models\ConfFeatureCollection;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use App\Models\FeatureCollection;
 use Exception;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FeatureCollectionController extends Controller
 {
@@ -38,7 +38,7 @@ class FeatureCollectionController extends Controller
                     $value = $this->convertToCamelCase($value);
                 }
                 if ($key === 'svg_path' && $value !== null) {
-                    $filePath = storage_path('app/public/' . $value);
+                    $filePath = storage_path('app/public/'.$value);
                     if (file_exists($filePath)) {
                         // Leggi il contenuto dell'SVG e aggiungilo all'attributo 'icon'
                         $convertedItem['icon'] = file_get_contents($filePath);
@@ -53,26 +53,29 @@ class FeatureCollectionController extends Controller
             }
             $convertedItem['featureType'] = Str::camel($convertedItem['type']);
             $convertedItem['type'] = 'button';
+
             return $convertedItem;
         });
         $geohubConfig['MAP']['controls']['overlays'] = $confFeatureCollections;
 
         return response()->json($geohubConfig);
     }
+
     public function hexToRgba($hexColor, $opacity = 1.0)
     {
         $hexColor = ltrim($hexColor, '#');
 
         if (strlen($hexColor) === 6) {
-            list($r, $g, $b) = sscanf($hexColor, "%02x%02x%02x");
+            list($r, $g, $b) = sscanf($hexColor, '%02x%02x%02x');
         } elseif (strlen($hexColor) === 8) {
-            list($r, $g, $b, $a) = sscanf($hexColor, "%02x%02x%02x%02x");
+            list($r, $g, $b, $a) = sscanf($hexColor, '%02x%02x%02x%02x');
             $opacity = round($a / 255, 2);
         } else {
             throw new Exception('Invalid hex color format.');
         }
 
         $rgbaColor = "rgba($r, $g, $b, $opacity)";
+
         return $rgbaColor;
     }
 
@@ -84,12 +87,15 @@ class FeatureCollectionController extends Controller
                 $convertedKey = Str::camel($key);
                 $convertedArray[$convertedKey] = $value;
             }
+
             return $convertedArray;
         } elseif ($item instanceof \Illuminate\Database\Eloquent\Model) {
             return $this->convertToCamelCase($item->toArray());
         }
+
         return $item;
     }
+
     protected function convertValue($value)
     {
         if (is_array($value) || is_object($value)) {
@@ -100,8 +106,10 @@ class FeatureCollectionController extends Controller
                 return $decodedJson;
             }
         }
+
         return $value;
     }
+
     protected function convertArrayOrObjectToCamelCase($value)
     {
         if (is_array($value)) {
@@ -109,6 +117,7 @@ class FeatureCollectionController extends Controller
             foreach ($value as $subKey => $subValue) {
                 $convertedArray[Str::camel($subKey)] = $this->convertArrayOrObjectToCamelCase($subValue);
             }
+
             return $convertedArray;
         } elseif (is_object($value)) {
             $convertedObject = new \stdClass();
@@ -116,8 +125,10 @@ class FeatureCollectionController extends Controller
                 $convertedKey = Str::camel($subKey);
                 $convertedObject->$convertedKey = $this->convertArrayOrObjectToCamelCase($subValue);
             }
+
             return $convertedObject;
         }
+
         return $value;
     }
 }
