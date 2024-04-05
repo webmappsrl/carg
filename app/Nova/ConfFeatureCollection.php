@@ -6,7 +6,7 @@ use App\Enums\FeatureCollectionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
-use Laravel\Nova\Fields\Color;
+use Outl1ne\NovaColorField\Color;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -55,9 +55,13 @@ class ConfFeatureCollection extends Resource
             NovaTabTranslatable::make([
                 Text::make(__('Label'), 'label'),
             ]),
-            Color::make('Fill Color')->hideWhenCreating(),
-            Color::make('Stroke Color'),
-            Number::make('Stroke width')->hideWhenCreating(),
+            Color::make('Fill Color')
+                ->displayAs('hex8')
+                ->saveAs('hex8'),
+            Color::make('Stroke Color')
+                ->displayAs('hex8')
+                ->saveAs('hex8'),
+            Number::make('Stroke width'),
             Text::make('Icon', 'svg_path', function () {
                 $url = Storage::disk('public')->url($this->svg_path);
 
