@@ -62,14 +62,14 @@ class ConfFeatureCollection extends Resource
                 $url = Storage::disk('public')->url($this->svg_path);
 
                 return "<object data='{$url}' width='300' height='300'></object>";
-            })->asHtml(),
+            })->asHtml()->onlyOnDetail(),
             File::make('SVG File', 'svg_path')
                 ->disk('public')
                 ->path('icons')
                 ->storeAs(function (Request $request) {
                     return $request->type.'.svg';
                 })
-                ->rules('mimes:svg', 'max:1024'),
+                ->rules('required', 'mimes:svg', 'max:1024'),
         ];
     }
 
