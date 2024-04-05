@@ -59,7 +59,7 @@ class ConfFeatureCollection extends Resource
             Color::make('Stroke Color'),
             Number::make('Stroke width')->hideWhenCreating(),
             Text::make('Icon', 'svg_path', function () {
-                $url = storage_path('app/public/' . $this->svg_path);
+                $url = Storage::disk('public')->url($this->svg_path);
                 return "<object data='{$url}' width='300' height='300'></object>";
             })->asHtml()->onlyOnDetail(),
             File::make('SVG File', 'svg_path')
