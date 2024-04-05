@@ -6,13 +6,13 @@ use App\Enums\FeatureCollectionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
-use Outl1ne\NovaColorField\Color;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Outl1ne\NovaColorField\Color;
 
 class ConfFeatureCollection extends Resource
 {
@@ -71,7 +71,7 @@ class ConfFeatureCollection extends Resource
                 ->disk('public')
                 ->path('icons')
                 ->storeAs(function (Request $request) {
-                    return $request->type . '.svg';
+                    return $request->type.'.svg';
                 })
                 ->rules('mimes:svg', 'max:1024'),
         ];
