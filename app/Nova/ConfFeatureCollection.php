@@ -67,7 +67,7 @@ class ConfFeatureCollection extends Resource
                 ->disk('public')
                 ->path('icons')
                 ->storeAs(function (Request $request) {
-                    return $request->type . '.svg';
+                    return $request->type.'.svg';
                 })
                 ->rules('mimes:svg', 'max:1024'),
         ];
