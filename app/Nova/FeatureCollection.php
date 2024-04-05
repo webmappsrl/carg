@@ -106,7 +106,11 @@ class FeatureCollection extends Resource
     {
         // Assumi che il valore di $resource->features sia il percorso del file JSON.
         // Adatta questa logica se il percorso o il modo in cui salvi i file è diverso.
+<<<<<<< Updated upstream
         $path = storage_path('app/public'.$path);
+=======
+        $path = storage_path('app/public/' . $path);
+>>>>>>> Stashed changes
         try {
             if (file_exists($path)) {
                 return file_get_contents($path);
