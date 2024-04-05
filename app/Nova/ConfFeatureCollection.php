@@ -56,11 +56,11 @@ class ConfFeatureCollection extends Resource
                 Text::make(__('Label'), 'label'),
             ]),
             Color::make('Fill Color')
-                ->displayAs('hex8')
-                ->saveAs('hex8'),
+                ->displayAs('rgba')
+                ->saveAs('rgba'),
             Color::make('Stroke Color')
-                ->displayAs('hex8')
-                ->saveAs('hex8'),
+                ->displayAs('rgba')
+                ->saveAs('rgba'),
             Number::make('Stroke width'),
             Text::make('Icon', 'svg_path', function () {
                 $url = Storage::disk('public')->url($this->svg_path);
@@ -71,7 +71,7 @@ class ConfFeatureCollection extends Resource
                 ->disk('public')
                 ->path('icons')
                 ->storeAs(function (Request $request) {
-                    return $request->type.'.svg';
+                    return $request->type . '.svg';
                 })
                 ->rules('mimes:svg', 'max:1024'),
         ];
