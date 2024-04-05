@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c860559e2c9abf78f4adecdb9b0e3dbe",
+    "content-hash": "fbca9e716f1d806a0dbcd634a2933e5b",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3483,6 +3483,60 @@
                 }
             ],
             "time": "2024-01-09T09:30:37+00:00"
+        },
+        {
+            "name": "outl1ne/nova-color-field",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/outl1ne/nova-color-field.git",
+                "reference": "f94ad567bca1665c5f0c5368d2b5c0adbeaa5c8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/outl1ne/nova-color-field/zipball/f94ad567bca1665c5f0c5368d2b5c0adbeaa5c8e",
+                "reference": "f94ad567bca1665c5f0c5368d2b5c0adbeaa5c8e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/nova": "^4.0",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2",
+                "orchestra/testbench": "^6",
+                "roave/security-advisories": "dev-latest"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Outl1ne\\NovaColorField\\ColorFieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Outl1ne\\NovaColorField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova Color Picker field.",
+            "keywords": [
+                "color picker",
+                "field",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/outl1ne/nova-color-field/issues",
+                "source": "https://github.com/outl1ne/nova-color-field/tree/2.0.3"
+            },
+            "time": "2023-06-30T11:18:33+00:00"
         },
         {
             "name": "phpoption/phpoption",
