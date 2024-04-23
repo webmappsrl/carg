@@ -38,7 +38,7 @@ class FeatureCollectionController extends Controller
                     $value = $this->convertToCamelCase($value);
                 }
                 if ($key === 'svg_path' && $value !== null) {
-                    $filePath = storage_path('app/public/' . $value);
+                    $filePath = storage_path('app/public/'.$value);
                     if (file_exists($filePath)) {
                         // Leggi il contenuto dell'SVG e aggiungilo all'attributo 'icon'
                         $convertedItem['icon'] = file_get_contents($filePath);
@@ -74,10 +74,11 @@ class FeatureCollectionController extends Controller
               "url": "https://tiles.webmapp.it/carg/{z}/{x}/{y}.png",
               "type": "button"
             }]', true);
-        $geohubConfig['MAP']['tiles'] =  json_decode('[{"CARG": "https://tiles.webmapp.it/carg/{z}/{x}/{y}.png"}]', true);
+        $geohubConfig['MAP']['tiles'] = json_decode('[{"CARG": "https://tiles.webmapp.it/carg/{z}/{x}/{y}.png"}]', true);
         $geohubConfig['MAP']['minZoom'] = 5;
         $geohubConfig['MAP']['defZoom'] = 6;
         $geohubConfig['MAP']['bbox'] = [6.7499552751, 36.619987291, 18.4802470232, 47.1153931748];
+
         return response()->json($geohubConfig);
     }
 
