@@ -10,11 +10,10 @@ use Illuminate\Support\Str;
 
 class FeatureCollectionController extends Controller
 {
-    public function get($id)
+    public function get($name)
     {
-        $featureCollection = FeatureCollection::findOrFail($id);
-
-        return response()->json($featureCollection);
+        $geojson = Storage::disk('public')->get("feature-collections/" . $name);
+        return $geojson;
     }
 
     public function conf()
