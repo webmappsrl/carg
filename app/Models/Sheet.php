@@ -14,7 +14,9 @@ class Sheet extends Model
     protected $fillable = [
         'carg_code',
         'geometry',
+        'file'
     ];
+
 
     public function geologyPoints()
     {

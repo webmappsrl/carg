@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Http\Requests\ResourceDetailRequest;
 use Wm\MapMultiPolygon\MapMultiPolygon;
+use Ahmedkandel\NovaS3MultipartUpload\NovaS3MultipartUpload;
 
 class Sheet extends Resource
 {
@@ -48,6 +49,18 @@ class Sheet extends Resource
             Text::make(__('Carg code'), 'carg_code')
                 ->sortable()
                 ->rules('required', 'max:255'),
+            NovaS3MultipartUpload::make('Zip URL', 'file')
+                ->keepOriginalName()
+                ->restrictions([
+                    'maxFileSize' => 1024 * 1024 * 1024,
+                    'minFileSize' => 50 * 1024,
+                    'maxTotalFileSize' => 10 * 1024 * 1024 * 1024,
+                    'maxNumberOfFiles' => 1,
+                    'minNumberOfFiles' => 1,
+                    'allowedFileTypes' => [
+                        '.zip',
+                    ]
+                ]),
             MapMultiPolygon::make(__('BBOX'), 'geometry')->withMeta([
                 'center' => ['42.795977075', '10.326813853'],
                 'attribution' => 'carg',
@@ -127,6 +140,8 @@ class Sheet extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            new Actions\DispatchProcessZipFromUrl,
+        ];
     }
 }
