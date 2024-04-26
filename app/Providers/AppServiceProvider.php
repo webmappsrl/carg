@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Sheet;
+use App\Observers\SheetObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**
@@ -23,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Sheet::observe(SheetObserver::class);
     }
 }
