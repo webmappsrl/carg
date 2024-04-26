@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Ahmedkandel\NovaS3MultipartUpload\NovaS3MultipartUpload;
 use App\Models\Sheet as ModelsSheet;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
@@ -9,7 +10,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Http\Requests\ResourceDetailRequest;
 use Wm\MapMultiPolygon\MapMultiPolygon;
-use Ahmedkandel\NovaS3MultipartUpload\NovaS3MultipartUpload;
 
 class Sheet extends Resource
 {
@@ -59,7 +59,7 @@ class Sheet extends Resource
                     'minNumberOfFiles' => 1,
                     'allowedFileTypes' => [
                         '.zip',
-                    ]
+                    ],
                 ]),
             MapMultiPolygon::make(__('BBOX'), 'geometry')->withMeta([
                 'center' => ['42.795977075', '10.326813853'],

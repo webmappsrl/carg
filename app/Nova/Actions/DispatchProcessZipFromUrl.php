@@ -2,12 +2,12 @@
 
 namespace App\Nova\Actions;
 
+use App\Jobs\ProcessZipFromUrl;
+use App\Models\Sheet;
 use Illuminate\Bus\Queueable;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Jobs\ProcessZipFromUrl;
-use App\Models\Sheet;
 
 class DispatchProcessZipFromUrl extends Action
 {
@@ -16,7 +16,7 @@ class DispatchProcessZipFromUrl extends Action
     /**
      * Perform the action on the specified models.
      *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
+     * @param  ActionFields  $fields
      * @param  \Illuminate\Support\Collection  $models
      * @return mixed
      */
@@ -36,7 +36,7 @@ class DispatchProcessZipFromUrl extends Action
     /**
      * Get the fields available on the action.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)

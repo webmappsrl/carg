@@ -12,7 +12,8 @@ class FeatureCollectionController extends Controller
 {
     public function get($name)
     {
-        $geojson = Storage::disk('public')->get("feature-collections/" . $name);
+        $geojson = Storage::disk('public')->get('feature-collections/'.$name);
+
         return $geojson;
     }
 

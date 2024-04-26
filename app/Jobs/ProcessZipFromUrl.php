@@ -10,11 +10,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use romanzipp\QueueMonitor\Traits\IsMonitored;
-
-use ZipArchive;
-use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use romanzipp\QueueMonitor\Traits\IsMonitored;
+use ZipArchive;
 
 class ProcessZipFromUrl implements ShouldQueue
 {
@@ -26,17 +25,19 @@ class ProcessZipFromUrl implements ShouldQueue
     {
         $this->zipUrl = $zipUrl;
     }
+
     public function handle()
     {
         $prefix = 'https://cargziptiles.s3.eu-central-1.amazonaws.com/';
         $tempZipPath = tempnam(sys_get_temp_dir(), 'zip');
-        $zipUrlPath = $prefix . $this->zipUrl;
+        $zipUrlPath = $prefix.$this->zipUrl;
 
         Log::info("Attempting to open URL: {$zipUrlPath}");
         $zipFileStream = @fopen($zipUrlPath, 'r');
 
-        if ($zipFileStream === FALSE) {
+        if ($zipFileStream === false) {
             Log::error("Failed to open file at: {$zipUrlPath}");
+
             return;
         }
 
@@ -45,8 +46,8 @@ class ProcessZipFromUrl implements ShouldQueue
 
         $zip = new ZipArchive;
 
-        if ($zip->open($tempZipPath) === TRUE) {
-            $tempDir = storage_path('app/tempZip/' . uniqid());
+        if ($zip->open($tempZipPath) === true) {
+            $tempDir = storage_path('app/tempZip/'.uniqid());
             $zip->extractTo($tempDir);
             $zip->close();
 
@@ -66,7 +67,7 @@ class ProcessZipFromUrl implements ShouldQueue
         file_put_contents($tempZipPath, fopen($this->zipUrl, 'r'));
         $zip = new ZipArchive;
 
-        if ($zip->open($tempZipPath) === TRUE) {
+        if ($zip->open($tempZipPath) === true) {
             // Estrai lo ZIP in una directory temporanea
             $tempDir = storage_path('app/tempZip');
             $zip->extractTo($tempDir);
@@ -84,6 +85,7 @@ class ProcessZipFromUrl implements ShouldQueue
             Log::error("Unable to open the ZIP file from URL: {$this->zipUrl}");
         }
     }
+
     protected function mergeContents($sourceDir, $disk)
     {
         $files = new RecursiveIteratorIterator(
@@ -92,8 +94,8 @@ class ProcessZipFromUrl implements ShouldQueue
         );
 
         foreach ($files as $fileInfo) {
-            $relativePath = str_replace('Mapnik' . DIRECTORY_SEPARATOR, '', $files->getSubPathName());
-            if ($fileInfo->isDir() && !is_numeric(basename($relativePath))) {
+            $relativePath = str_replace('Mapnik'.DIRECTORY_SEPARATOR, '', $files->getSubPathName());
+            if ($fileInfo->isDir() && ! is_numeric(basename($relativePath))) {
                 continue;
             }
             if ($fileInfo->isDir()) {
@@ -107,7 +109,7 @@ class ProcessZipFromUrl implements ShouldQueue
 
                     // Assicurati che la directory di destinazione esista (crea se non esiste)
                     $directoryPath = dirname($relativePath);
-                    if (!$disk->exists($directoryPath)) {
+                    if (! $disk->exists($directoryPath)) {
                         $disk->makeDirectory($directoryPath);  // Assicurati che il driver supporti questa operazione
                     }
 
@@ -118,7 +120,6 @@ class ProcessZipFromUrl implements ShouldQueue
         }
     }
 
-
     protected function mergeContents2($sourceDir, $targetDir)
     {
         $files = new RecursiveIteratorIterator(
@@ -128,36 +129,36 @@ class ProcessZipFromUrl implements ShouldQueue
 
         foreach ($files as $fileInfo) {
             // Ottieni il percorso relativo senza la cartella "Mapnik"
-            $relativePath = str_replace('Mapnik' . DIRECTORY_SEPARATOR, '', $files->getSubPathName());
+            $relativePath = str_replace('Mapnik'.DIRECTORY_SEPARATOR, '', $files->getSubPathName());
 
             // Costruisci il percorso di destinazione
-            $targetPath = $targetDir . DIRECTORY_SEPARATOR . $relativePath;
+            $targetPath = $targetDir.DIRECTORY_SEPARATOR.$relativePath;
 
             // Se è una directory e non è numerica, continua con il prossimo file
-            if ($fileInfo->isDir() && !is_numeric(basename($relativePath))) {
+            if ($fileInfo->isDir() && ! is_numeric(basename($relativePath))) {
                 continue;
             }
 
             // Crea la directory di destinazione se non esiste
-            if ($fileInfo->isDir() && !file_exists($targetPath)) {
+            if ($fileInfo->isDir() && ! file_exists($targetPath)) {
                 mkdir($targetPath, 0777, true);
                 continue;
             }
 
             // Per i file, verifica che l'estensione sia '.png'
-            if (!$fileInfo->isDir() && $fileInfo->getExtension() !== 'png') {
+            if (! $fileInfo->isDir() && $fileInfo->getExtension() !== 'png') {
                 continue;
             }
 
             // Assicurati che la directory di destinazione esista
-            if (!$fileInfo->isDir()) {
+            if (! $fileInfo->isDir()) {
                 $directoryPath = dirname($targetPath);
-                if (!file_exists($directoryPath)) {
+                if (! file_exists($directoryPath)) {
                     mkdir($directoryPath, 0777, true);
                 }
 
                 // Copia il file nella destinazione
-                if (!copy($fileInfo->getRealPath(), $targetPath)) {
+                if (! copy($fileInfo->getRealPath(), $targetPath)) {
                     Log::error("Failed to copy {$fileInfo->getRealPath()} to {$targetPath}");
                 }
             }
