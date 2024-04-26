@@ -35,7 +35,7 @@ return [
             'host' => env('TGEN_HOST'),
             'username' => 'root',
             'password' => env('TGEN_PASSWORD'),
-            'root' => '/var/www/html/carg2',
+            'root' => env('TGEN_ROOT'),
             'port' => 22,
             'timeout' => 30,
         ],

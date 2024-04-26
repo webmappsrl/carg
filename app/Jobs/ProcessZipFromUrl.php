@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 use ZipArchive;
 use RecursiveIteratorIterator;
@@ -17,7 +18,7 @@ use RecursiveDirectoryIterator;
 
 class ProcessZipFromUrl implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, IsMonitored;
 
     protected $zipUrl;
 
