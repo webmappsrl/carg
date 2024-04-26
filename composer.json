@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2.0",
+        "ahmedkandel/nova-s3-multipart-upload": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "kongulov/nova-tab-translatable": "^2.1",
         "laravel/framework": "^10.0",
@@ -16,6 +17,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.12",
+        "league/flysystem-sftp-v3": "^3.0",
         "outl1ne/nova-color-field": "^2.0",
         "spatie/db-dumper": "^3.3",
         "spatie/laravel-translatable": "^6.3",
