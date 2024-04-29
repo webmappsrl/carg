@@ -30,7 +30,7 @@ class ProcessZipFromUrl implements ShouldQueue
     {
         $prefix = 'https://cargziptiles.s3.eu-central-1.amazonaws.com/';
         $tempZipPath = tempnam(sys_get_temp_dir(), 'zip');
-        $zipUrlPath = $prefix.$this->zipUrl;
+        $zipUrlPath = $prefix . $this->zipUrl;
 
         Log::info("Attempting to open URL: {$zipUrlPath}");
         $zipFileStream = @fopen($zipUrlPath, 'r');
@@ -47,7 +47,7 @@ class ProcessZipFromUrl implements ShouldQueue
         $zip = new ZipArchive;
 
         if ($zip->open($tempZipPath) === true) {
-            $tempDir = storage_path('app/tempZip/'.uniqid());
+            $tempDir = storage_path('app/tempZip/' . uniqid());
             $zip->extractTo($tempDir);
             $zip->close();
 
@@ -94,8 +94,8 @@ class ProcessZipFromUrl implements ShouldQueue
         );
 
         foreach ($files as $fileInfo) {
-            $relativePath = str_replace('Mapnik'.DIRECTORY_SEPARATOR, '', $files->getSubPathName());
-            if ($fileInfo->isDir() && ! is_numeric(basename($relativePath))) {
+            $relativePath = str_replace('Mapnik' . DIRECTORY_SEPARATOR, '', $files->getSubPathName());
+            if ($fileInfo->isDir() && !is_numeric(basename($relativePath))) {
                 continue;
             }
             if ($fileInfo->isDir()) {
@@ -109,7 +109,7 @@ class ProcessZipFromUrl implements ShouldQueue
 
                     // Assicurati che la directory di destinazione esista (crea se non esiste)
                     $directoryPath = dirname($relativePath);
-                    if (! $disk->exists($directoryPath)) {
+                    if (!$disk->exists($directoryPath)) {
                         $disk->makeDirectory($directoryPath);  // Assicurati che il driver supporti questa operazione
                     }
 
@@ -129,36 +129,36 @@ class ProcessZipFromUrl implements ShouldQueue
 
         foreach ($files as $fileInfo) {
             // Ottieni il percorso relativo senza la cartella "Mapnik"
-            $relativePath = str_replace('Mapnik'.DIRECTORY_SEPARATOR, '', $files->getSubPathName());
+            $relativePath = str_replace('Mapnik' . DIRECTORY_SEPARATOR, '', $files->getSubPathName());
 
             // Costruisci il percorso di destinazione
-            $targetPath = $targetDir.DIRECTORY_SEPARATOR.$relativePath;
+            $targetPath = $targetDir . DIRECTORY_SEPARATOR . $relativePath;
 
             // Se è una directory e non è numerica, continua con il prossimo file
-            if ($fileInfo->isDir() && ! is_numeric(basename($relativePath))) {
+            if ($fileInfo->isDir() && !is_numeric(basename($relativePath))) {
                 continue;
             }
 
             // Crea la directory di destinazione se non esiste
-            if ($fileInfo->isDir() && ! file_exists($targetPath)) {
-                mkdir($targetPath, 0777, true);
+            if ($fileInfo->isDir() && !file_exists($targetPath)) {
+                mkdir($targetPath, 0755, true);
                 continue;
             }
 
             // Per i file, verifica che l'estensione sia '.png'
-            if (! $fileInfo->isDir() && $fileInfo->getExtension() !== 'png') {
+            if (!$fileInfo->isDir() && $fileInfo->getExtension() !== 'png') {
                 continue;
             }
 
             // Assicurati che la directory di destinazione esista
-            if (! $fileInfo->isDir()) {
+            if (!$fileInfo->isDir()) {
                 $directoryPath = dirname($targetPath);
-                if (! file_exists($directoryPath)) {
-                    mkdir($directoryPath, 0777, true);
+                if (!file_exists($directoryPath)) {
+                    mkdir($directoryPath, 0755, true);
                 }
 
                 // Copia il file nella destinazione
-                if (! copy($fileInfo->getRealPath(), $targetPath)) {
+                if (!copy($fileInfo->getRealPath(), $targetPath)) {
                     Log::error("Failed to copy {$fileInfo->getRealPath()} to {$targetPath}");
                 }
             }
