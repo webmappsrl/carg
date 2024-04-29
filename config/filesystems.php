@@ -39,7 +39,7 @@ return [
             'port' => 22,
             'timeout' => 30,
             'visibility' => 'public',
-            'directory_visibility' => 'public'
+            'directory_visibility' => 'public',
         ],
         'local' => [
             'driver' => 'local',
@@ -49,14 +49,14 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL') . '/storage',
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
         'tiles' => [
             'driver' => 'local',
             'root'   => public_path('tiles'),
-            'url'    => env('APP_URL') . '/tiles',
+            'url'    => env('APP_URL').'/tiles',
             'visibility' => 'public',
         ],
         's3' => [
