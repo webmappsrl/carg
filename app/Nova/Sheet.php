@@ -49,7 +49,7 @@ class Sheet extends Resource
             Text::make(__('Carg code'), 'carg_code')
                 ->sortable()
                 ->rules('required', 'max:255'),
-            NovaS3MultipartUpload::make('Zip URL', 'file')
+            NovaS3MultipartUpload::make('Zip Raster', 'file')
                 ->keepOriginalName()
                 ->restrictions([
                     'maxFileSize' => 1024 * 1024 * 1024,
