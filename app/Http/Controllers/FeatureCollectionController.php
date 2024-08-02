@@ -24,7 +24,7 @@ class FeatureCollectionController extends Controller
         $geohubConfig = json_decode($jsonContent, true);
 
         // Ottieni i tuoi dati locali da ConfFeatureCollectio
-        $confFeatureCollections = ConfFeatureCollection::all();
+        $confFeatureCollections = ConfFeatureCollection::all()->sortBy('id');
 
         $confFeatureCollections = $confFeatureCollections->map(function ($item) {
             // Converti ogni attributo dell'item in camelCase
@@ -42,9 +42,11 @@ class FeatureCollectionController extends Controller
                     if (file_exists($filePath)) {
                         // Leggi il contenuto dell'SVG e aggiungilo all'attributo 'icon'
                         $convertedItem['icon'] = file_get_contents($filePath);
+                        $convertedItem['url'] = url(Storage::url($value));
                     } else {
                         // Se il file non esiste, imposta 'icon' a null
                         $convertedItem['icon'] = null;
+                        $convertedItem['url'] = null;
                     }
                 } else {
                     $convertedItem[$convertedKey] = $value;
@@ -56,7 +58,7 @@ class FeatureCollectionController extends Controller
 
             return $convertedItem;
         });
-        $geohubConfig['MAP']['controls']['overlays'] = $confFeatureCollections;
+        $geohubConfig['MAP']['controls']['overlays'] = $confFeatureCollections->values()->all();
         $geohubConfig['MAP']['controls']['tiles'] = json_decode('[
             {
               "label": {
