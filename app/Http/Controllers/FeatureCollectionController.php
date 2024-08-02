@@ -12,7 +12,7 @@ class FeatureCollectionController extends Controller
 {
     public function get($name)
     {
-        $geojson = Storage::disk('public')->get('feature-collections/' . $name);
+        $geojson = Storage::disk('public')->get('feature-collections/'.$name);
 
         return $geojson;
     }
@@ -38,7 +38,7 @@ class FeatureCollectionController extends Controller
                     $value = $this->convertToCamelCase($value);
                 }
                 if ($key === 'svg_path' && $value !== null) {
-                    $filePath = storage_path('app/public/' . $value);
+                    $filePath = storage_path('app/public/'.$value);
                     if (file_exists($filePath)) {
                         // Leggi il contenuto dell'SVG e aggiungilo all'attributo 'icon'
                         $convertedItem['icon'] = file_get_contents($filePath);
