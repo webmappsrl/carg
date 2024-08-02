@@ -42,11 +42,11 @@ class FeatureCollectionController extends Controller
                     if (file_exists($filePath)) {
                         // Leggi il contenuto dell'SVG e aggiungilo all'attributo 'icon'
                         $convertedItem['icon'] = file_get_contents($filePath);
-                        $convertedItem['url'] = url(Storage::url($value));
+                        $convertedItem['icon_url'] = url(Storage::url($value));
                     } else {
                         // Se il file non esiste, imposta 'icon' a null
                         $convertedItem['icon'] = null;
-                        $convertedItem['url'] = null;
+                        $convertedItem['icon_url'] = null;
                     }
                 } else {
                     $convertedItem[$convertedKey] = $value;
