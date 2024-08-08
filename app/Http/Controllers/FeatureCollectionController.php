@@ -82,6 +82,7 @@ class FeatureCollectionController extends Controller
         $geohubConfig['MAP']['defZoom'] = 6;
         $geohubConfig['MAP']['bbox'] = [6.7499552751, 36.619987291, 18.4802470232, 47.1153931748];
         $geohubConfig['MAP']['attribution'] = false;
+        $geohubConfig['MAP']['hitMapUrl'] = "https://carg.maphub.it/api/sheets.json";
 
         return response()->json($geohubConfig);
     }
