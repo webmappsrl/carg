@@ -19,7 +19,7 @@ class FeatureCollectionController extends Controller
 
     public function conf()
     {
-        $url = 'https://geohub.webmapp.it/api/app/webmapp/55/config.json';
+        $url = 'https://geohub.webmapp.it/api/app/webmapp/55/base-config.json';
         $jsonContent = file_get_contents($url);
         $geohubConfig = json_decode($jsonContent, true);
 
