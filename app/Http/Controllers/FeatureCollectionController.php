@@ -97,11 +97,11 @@ class FeatureCollectionController extends Controller
                 return response()->json(json_decode($json));
             } else {
                 $json =  $this->generateConf();
-                return response()->json(json_decode($json));
+                return response()->json($json);
             }
         } catch (Exception $e) {
             $json =  $this->generateConf();
-            return response()->json(json_decode($json));
+            return response()->json($json);
         }
     }
 
