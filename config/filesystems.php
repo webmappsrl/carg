@@ -49,14 +49,14 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
         'tiles' => [
             'driver' => 'local',
             'root'   => public_path('tiles'),
-            'url'    => env('APP_URL').'/tiles',
+            'url'    => env('APP_URL') . '/tiles',
             'visibility' => 'public',
         ],
         's3' => [
@@ -69,6 +69,16 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+        ],
+        'wmfeconf' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_DUMPS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => 'wmfe',
+            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_ENDPOINT'),
+            'root' => 'geohub/conf',
         ],
 
     ],
