@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use App\Http\Controllers\FeatureCollectionController;
 
 class ConfFeatureCollection extends Model
 {
@@ -13,4 +14,18 @@ class ConfFeatureCollection extends Model
     public $translatable = ['label'];
 
     protected $fillable = ['svg_path'];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::saved(function ($confFeatureCollection) {
+            $featureCollectionController = new FeatureCollectionController();
+            $featureCollectionController->generateConf();
+        });
+
+        static::deleted(function ($confFeatureCollection) {
+            $featureCollectionController = new FeatureCollectionController();
+            $featureCollectionController->generateConf();
+        });
+    }
 }
