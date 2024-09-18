@@ -90,10 +90,16 @@ class FeatureCollectionController extends Controller
     public function conf()
     {
         $confUri = "55.json";
-        if (Storage::disk('wmfeconf')->exists($confUri)) {
-            $json = Storage::disk('wmfeconf')->get($confUri);
-            return response()->json(json_decode($json));
-        } else {
+        try {
+
+            if (Storage::disk('wmfeconf')->exists($confUri)) {
+                $json = Storage::disk('wmfeconf')->get($confUri);
+                return response()->json(json_decode($json));
+            } else {
+                $json =  $this->generateConf();
+                return response()->json(json_decode($json));
+            }
+        } catch (Exception $e) {
             $json =  $this->generateConf();
             return response()->json(json_decode($json));
         }
