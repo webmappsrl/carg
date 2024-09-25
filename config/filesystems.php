@@ -41,6 +41,19 @@ return [
             'visibility' => 'public',
             'directory_visibility' => 'public',
         ],
+
+        'blankmap' => [
+            'driver' => 'sftp',
+            'host' => env('TGEN_HOST'),
+            'username' => 'root',
+            'password' => env('TGEN_PASSWORD'),
+            'root' => env('BLANKMAP_ROOT'),
+            'port' => 22,
+            'timeout' => 30,
+            'visibility' => 'public',
+            'directory_visibility' => 'public',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
