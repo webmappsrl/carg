@@ -33,7 +33,8 @@ class Sheet extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'carg_code',
+        'id',
+        'carg_code',
     ];
 
     /**
@@ -142,6 +143,7 @@ class Sheet extends Resource
     {
         return [
             new Actions\DispatchProcessZipFromUrl,
+            new Actions\RestoreDefaultTiles
         ];
     }
 }
