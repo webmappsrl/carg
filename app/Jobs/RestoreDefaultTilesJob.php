@@ -30,7 +30,7 @@ class RestoreDefaultTilesJob implements ShouldQueue
     public function handle(): void
     {
         $logger = Log::channel('rasters');
-        $tgen = Storage::disk('tgen');
+        $carg = Storage::disk('carg');
         $blankmap = Storage::disk('blankmap');
         $s3 = Storage::disk('s3');
 
@@ -41,43 +41,36 @@ class RestoreDefaultTilesJob implements ShouldQueue
             return; // Esce dal job se il nome della directory non è valido
         }
 
-        // Controlla se la directory esiste nel disco tgen
-        if (!$tgen->exists($dirName)) {
-            $logger->error('Directory ' . $dirName . ' not found in tgen disk');
+        // Controlla se la directory esiste nel disco carg
+        if (!$carg->exists($dirName)) {
+            $logger->error('Directory ' . $dirName . ' not found in carg disk');
             return; // Esce dal job se la directory non esiste
         }
 
         try {
-            // Ottieni tutti i files nella directory del disco tgen
-            $files = $tgen->allFiles($dirName);
+            // Ottieni tutti i files nella directory del disco carg
+            $files = $carg->allFiles($dirName);
 
-            foreach ($files as $relativePath) {
+            foreach ($files as $cargPath) {
 
-                if (strpos($relativePath, '..') !== false) {
-                    $logger->warning("Percorso non valido rilevato: $relativePath");
+                if (strpos($cargPath, '..') !== false) {
+                    $logger->warning("Percorso non valido rilevato: $cargPath");
                     continue; // Salta i percorsi potenzialmente problematici
                 }
 
-                $sourcePath = $relativePath; // Percorso relativo nel disco tgen
-                $blankmapPath = str_replace($dirName . '/', '', $relativePath); // Percorso relativo nel disco blankmap
+                $blankmapPath = str_replace($dirName . '/', '', $cargPath); // Percorso relativo nel disco blankmap
 
                 // Verifica se il file di default esiste nella mappa muta (blankmap)
                 if ($blankmap->exists($blankmapPath)) {
-                    // Assicurati che la directory di destinazione esista su tgen
-                    $tgen->makeDirectory(dirname($sourcePath));
+                    // Assicurati che la directory di destinazione esista su carg
+                    $carg->makeDirectory(dirname($cargPath));
 
-                    // Copia il file dalla mappa muta (blankmap) al percorso attuale su tgen
-                    $tgen->put($sourcePath, $blankmap->get($blankmapPath));
+                    // Copia il file dalla mappa muta (blankmap) al percorso attuale su carg
+                    $carg->put($cargPath, $blankmap->get($blankmapPath));
                     $logger->info("Sostituito: $sourcePath con file da mappa muta: $blankmapPath");
                 } else {
-                    $logger->error("File mappa muta non trovato per: $relativePath");
+                    $logger->error("File mappa muta non trovato per: $cargPath");
                 }
-            }
-
-            // Cancellazione dello zip originale
-            if ($s3->exists($this->sheet->file)) {
-                $logger->info("Cancellazione dello zip originale su S3: {$this->sheet->file} ...");
-                $s3->delete($this->sheet->file);
             }
 
             $this->sheet->file = null;
