@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Enums\FeatureCollectionType;
 use App\Models\FeatureCollection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\FeatureCollectionType;
+use App\Jobs\RestoreDefaultTilesJob;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Sheet extends Model
 {
@@ -16,6 +17,19 @@ class Sheet extends Model
         'geometry',
         'file',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($sheet) {
+            $isRasterDeleted = $sheet->isDirty('file') && $sheet->getOriginal('file') !== null && $sheet->file === null;
+
+            if ($isRasterDeleted) {
+                RestoreDefaultTilesJob::dispatch($sheet);
+            }
+        });
+    }
 
     public function geologyPoints()
     {
