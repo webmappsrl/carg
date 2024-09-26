@@ -3,14 +3,14 @@
 namespace App\Jobs;
 
 use App\Models\Sheet;
-use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use romanzipp\QueueMonitor\Traits\IsMonitored;
 
 class RestoreDefaultTilesJob implements ShouldQueue
@@ -36,14 +36,16 @@ class RestoreDefaultTilesJob implements ShouldQueue
 
         $dirName = Str::before($this->sheet->file, '.zip');
 
-        if (!$dirName) {
+        if (! $dirName) {
             $logger->error('Directory name not found');
+
             return; // Esce dal job se il nome della directory non è valido
         }
 
         // Controlla se la directory esiste nel disco carg
-        if (!$carg->exists($dirName)) {
-            $logger->error('Directory ' . $dirName . ' not found in carg disk');
+        if (! $carg->exists($dirName)) {
+            $logger->error('Directory '.$dirName.' not found in carg disk');
+
             return; // Esce dal job se la directory non esiste
         }
 
@@ -52,13 +54,12 @@ class RestoreDefaultTilesJob implements ShouldQueue
             $files = $carg->allFiles($dirName);
 
             foreach ($files as $cargPath) {
-
                 if (strpos($cargPath, '..') !== false) {
                     $logger->warning("Percorso non valido rilevato: $cargPath");
                     continue; // Salta i percorsi potenzialmente problematici
                 }
 
-                $blankmapPath = str_replace($dirName . '/', '', $cargPath); // Percorso relativo nel disco blankmap
+                $blankmapPath = str_replace($dirName.'/', '', $cargPath); // Percorso relativo nel disco blankmap
 
                 // Verifica se il file di default esiste nella mappa muta (blankmap)
                 if ($blankmap->exists($blankmapPath)) {
@@ -75,10 +76,10 @@ class RestoreDefaultTilesJob implements ShouldQueue
 
             $this->sheet->file = null;
             $this->sheet->save();
-            $logger->info("Cancellazione dello zip originale su S3 completata");
+            $logger->info('Cancellazione dello zip originale su S3 completata');
         } catch (\Exception $e) {
             // Registra l'errore nel log
-            $logger->error('Errore durante l\'iterazione dei file: ' . $e->getMessage());
+            $logger->error('Errore durante l\'iterazione dei file: '.$e->getMessage());
             throw $e;
         }
     }

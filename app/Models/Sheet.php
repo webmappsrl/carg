@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\FeatureCollection;
 use App\Enums\FeatureCollectionType;
 use App\Jobs\RestoreDefaultTilesJob;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\FeatureCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Sheet extends Model
 {
