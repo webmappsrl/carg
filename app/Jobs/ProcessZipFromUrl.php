@@ -31,7 +31,7 @@ class ProcessZipFromUrl implements ShouldQueue
         $logger = Log::channel('push_notifications');
         $prefix = 'https://cargziptiles.s3.eu-central-1.amazonaws.com/';
         $tempZipPath = tempnam(sys_get_temp_dir(), 'zip');
-        $zipUrlPath = $prefix.$this->zipUrl;
+        $zipUrlPath = $prefix . $this->zipUrl;
 
         $logger->info("Attempting to open URL: {$zipUrlPath}");
         $zipFileStream = @fopen($zipUrlPath, 'r');
@@ -48,12 +48,12 @@ class ProcessZipFromUrl implements ShouldQueue
         $zip = new ZipArchive;
 
         if ($zip->open($tempZipPath) === true) {
-            $tempDir = storage_path('app/tempZip/'.uniqid());
+            $tempDir = storage_path('app/tempZip/' . uniqid());
             $zip->extractTo($tempDir);
             $zip->close();
             $logger->info("temp directory: {$tempDir}");
             // Continua con la tua logica di unione dei contenuti...
-            $this->mergeContents($tempDir, Storage::disk('tgen'));
+            $this->mergeContents($tempDir, Storage::disk('carg'));
             Storage::deleteDirectory($tempDir);
         } else {
             Log::error("Unable to open the ZIP file from URL: {$zipUrlPath}");
@@ -71,7 +71,7 @@ class ProcessZipFromUrl implements ShouldQueue
         );
         $logger->info("mergeContents sourceDir: {$sourceDir}");
         foreach ($files as $fileInfo) {
-            $relativePath = str_replace('Mapnik'.DIRECTORY_SEPARATOR, '', $files->getSubPathName());
+            $relativePath = str_replace('Mapnik' . DIRECTORY_SEPARATOR, '', $files->getSubPathName());
             $logger->info("mergeContents relativePath: {$relativePath}");
             if ($fileInfo->isDir() && ! is_numeric(basename($relativePath))) {
                 continue;
