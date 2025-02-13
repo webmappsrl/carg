@@ -16,6 +16,7 @@ class FeatureCollectionController extends Controller
 
         return $geojson;
     }
+
     public function generateConf()
     {
         $url = 'https://geohub.webmapp.it/api/app/webmapp/55/base-config.json';
@@ -81,26 +82,29 @@ class FeatureCollectionController extends Controller
         $geohubConfig['MAP']['defZoom'] = 6;
         $geohubConfig['MAP']['bbox'] = [6.7499552751, 36.619987291, 18.4802470232, 47.1153931748];
         $geohubConfig['MAP']['attribution'] = false;
-        $geohubConfig['MAP']['hitMapUrl'] = "https://carg.maphub.it/api/sheets.json";
+        $geohubConfig['MAP']['hitMapUrl'] = 'https://carg.maphub.it/api/sheets.json';
 
         Storage::disk('wmfeconf')->put('55.json', json_encode($geohubConfig));
+
         return $geohubConfig;
     }
 
     public function conf()
     {
-        $confUri = "55.json";
+        $confUri = '55.json';
         try {
-
             if (Storage::disk('wmfeconf')->exists($confUri)) {
                 $json = Storage::disk('wmfeconf')->get($confUri);
+
                 return response()->json(json_decode($json));
             } else {
-                $json =  $this->generateConf();
+                $json = $this->generateConf();
+
                 return response()->json($json);
             }
         } catch (Exception $e) {
-            $json =  $this->generateConf();
+            $json = $this->generateConf();
+
             return response()->json($json);
         }
     }

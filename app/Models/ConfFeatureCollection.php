@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\FeatureCollectionController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
-use App\Http\Controllers\FeatureCollectionController;
 
 class ConfFeatureCollection extends Model
 {
