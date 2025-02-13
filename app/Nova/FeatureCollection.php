@@ -134,14 +134,14 @@ class FeatureCollection extends Resource
                 ->hideFromIndex()
                 ->hideFromDetail(),
             // formato SR predefinito: EPSG:4326 - WGS 84
-            MapMultiPolygon::make('map')->withMeta([
-                'center' => ['42.795977075', '10.326813853'],
-                'attribution' => 'carg',
-                'tiles' => 'https://tiles.webmapp.it/carg/{z}/{x}/{y}.png',
-                'minZoom' => 6,
-                'geojson' => $geojson,
-            ])
-                ->hide(),
+            //MapMultiPolygon::make('map')->withMeta([
+            //    'center' => ['42.795977075', '10.326813853'],
+            //    'attribution' => 'carg',
+            //    'tiles' => 'https://tiles.webmapp.it/carg/{z}/{x}/{y}.png',
+            //    'minZoom' => 6,
+            //    'geojson' => $geojson,
+            //])
+            //    ->hide(),
             Code::make('Geojson', 'geojson_path')
                 ->json()
                 //->rules('required', 'json', new ValidGeoJSON)
