@@ -141,7 +141,7 @@ class FeatureCollection extends Resource
                 'minZoom' => 6,
                 'geojson' => $geojson,
             ])
-                ->onlyOnDetail(),
+                ->hide(),
             Code::make('Geojson', 'geojson_path')
                 ->json()
                 //->rules('required', 'json', new ValidGeoJSON)
