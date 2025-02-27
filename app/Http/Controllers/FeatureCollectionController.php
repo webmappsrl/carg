@@ -60,7 +60,7 @@ class FeatureCollectionController extends Controller
             return $convertedItem;
         });
         $geohubConfig['MAP']['controls']['overlays'] = $confFeatureCollections->values()->all();
-        $geohubConfig['MAP']['controls']['tiles'] = <<<JSON
+        $geohubConfig['MAP']['controls']['tiles'] = json_decode(<<<JSON
         [
             {
             "label": { "it": "Tipo di mappa", "en": "Map type" },
@@ -85,11 +85,11 @@ class FeatureCollectionController extends Controller
             "type": "title"
             }
         ]
-        JSON;
-        $geohubConfig['MAP']['tiles'] =  <<<JSON
+        JSON, true);
+        $geohubConfig['MAP']['tiles'] =  json_decode(<<<JSON
         {"base": "https://tiles.webmapp.it/webmappnohiking/{z}/{x}/{y}.png"},
         {"satellite": "https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=0Z7ou7nfFFXipdDXHChf"}
-        JSON;
+        JSON, true);
         $geohubConfig['MAP']['minZoom'] = 5;
         $geohubConfig['MAP']['maxZoom'] = 17;
         $geohubConfig['MAP']['defZoom'] = 6;
