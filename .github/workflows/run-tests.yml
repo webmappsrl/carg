@@ -25,6 +25,10 @@ jobs:
           submodules: recursive
       - name: Copy .env
         run: cp .env-example .env
+      - name: Check working directory and list files
+        run: |
+          pwd
+          ls -la
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Generate key
