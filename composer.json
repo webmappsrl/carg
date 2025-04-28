@@ -9,20 +9,20 @@
     "license": "MIT",
     "require": {
         "php": "^8.2.0",
-        "ahmedkandel/nova-s3-multipart-upload": "^2.0",
+        "ahmedkandel/nova-s3-multipart-upload": "dev-master",
         "guzzlehttp/guzzle": "^7.2",
         "kongulov/nova-tab-translatable": "^2.1",
         "laravel/framework": "^10.0",
-        "laravel/nova": "^4.32",
+        "laravel/nova": "^5.0",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.12",
         "league/flysystem-sftp-v3": "^3.0",
-        "outl1ne/nova-color-field": "^2.0",
+        "outl1ne/nova-color-field": "dev-master",
         "romanzipp/laravel-queue-monitor": "^5.2",
         "spatie/db-dumper": "^3.3",
         "spatie/laravel-translatable": "^6.3",
-        "wm/map-multi-polygon": "^0.0.3",
+        "wm/map-multi-polygon": "*",
         "wm/wm-internal": "*",
         "wm/wm-package": "*"
     },
@@ -72,12 +72,18 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "cweagans/composer-patches": true,
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
+             {
+            "type": "path",
+            "url": "./wm-package"
+        },
         {
             "type": "composer",
             "url": "https://nova.laravel.com"
@@ -85,6 +91,14 @@
         {
             "type": "path",
             "url": "./wm-internal"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/gemanzo/nova-color-field"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/gemanzo/nova-s3-multipart-upload"
         }
     ]
 }

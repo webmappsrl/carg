@@ -60,7 +60,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         Gate::define('viewNova', function ($user) {
             return in_array($user->email, [
-                'admin@webmapp.it', 'roberta.carta@isprambiente.it',
+                'admin@webmapp.it',
+                'roberta.carta@isprambiente.it',
+                'team@webmapp.it',
             ]);
         });
     }
@@ -94,6 +96,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function register()
     {
-        //
+        parent::register();
     }
 }
