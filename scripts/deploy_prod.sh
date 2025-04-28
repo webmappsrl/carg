@@ -5,7 +5,9 @@ echo "Production deployment started ..."
 
 php artisan down
 
-composer install
+git submodule update --init --recursive
+
+composer install  --no-interaction --prefer-dist --optimize-autoloader
 composer dump-autoload
 
 # Clear and cache config
@@ -14,10 +16,7 @@ php artisan config:clear
 
 # Clear the old cache
 php artisan clear-compiled
-
-# TODO: Uncomment when api.favorite issue will be resolved
-# php artisan optimize
-
+php artisan optimize
 php artisan migrate
 
 php artisan up

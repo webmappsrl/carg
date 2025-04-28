@@ -4,8 +4,9 @@ set -e
 echo "Deployment started ..."
 
 # Enter maintenance mode or return true
-# if already is in maintenance mode
-(php artisan down) || true
+php artisan down
+
+git submodule update --init --recursive
 
 # Install composer dependencies
 composer install  --no-interaction --prefer-dist --optimize-autoloader
