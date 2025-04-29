@@ -11373,7 +11373,7 @@
         },
         {
             "name": "wm/wm-internal",
-            "version": "dev-nova_5_update",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./wm-internal",
