@@ -13,7 +13,7 @@ class FeatureCollectionController extends Controller
 {
     public function get($name)
     {
-        $geojson = Storage::disk('public')->get('feature-collections/' . $name);
+        $geojson = Storage::disk('public')->get('feature-collections/'.$name);
 
         return $geojson;
     }
@@ -39,7 +39,7 @@ class FeatureCollectionController extends Controller
                     $value = $this->convertToCamelCase($value);
                 }
                 if ($key === 'svg_path' && $value !== null) {
-                    $filePath = storage_path('app/public/' . $value);
+                    $filePath = storage_path('app/public/'.$value);
                     if (file_exists($filePath)) {
                         // Leggi il contenuto dell'SVG e aggiungilo all'attributo 'icon'
                         $convertedItem['icon'] = file_get_contents($filePath);
@@ -86,7 +86,7 @@ class FeatureCollectionController extends Controller
             }
         ]
         JSON, true);
-        $geohubConfig['MAP']['tiles'] =  json_decode(<<<JSON
+        $geohubConfig['MAP']['tiles'] = json_decode(<<<'JSON'
         {"base": "https://tiles.webmapp.it/webmappnohiking/{z}/{x}/{y}.png"},
         {"satellite": "https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=0Z7ou7nfFFXipdDXHChf"}
         JSON, true);
