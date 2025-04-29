@@ -1,6 +1,6 @@
 name: Run Tests
 
-on: [push, pull_request, workflow_call]
+on: [pull_request, push, workflow_call, workflow_dispatch]
 
 jobs:
   laravel-tests:
@@ -21,6 +21,8 @@ jobs:
           ##php version
           php-version: "8.2"
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - name: Copy .env
         run: cp .env-example .env
       - name: Install Dependencies
