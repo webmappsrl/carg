@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gemanzo/nova-s3-multipart-upload.git",
-                "reference": "a89666110d25e685bbe547b090327a4765be3b17"
+                "reference": "ab90809d8adbb6b98d67067d5795f486d40b8896"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gemanzo/nova-s3-multipart-upload/zipball/a89666110d25e685bbe547b090327a4765be3b17",
-                "reference": "a89666110d25e685bbe547b090327a4765be3b17",
+                "url": "https://api.github.com/repos/gemanzo/nova-s3-multipart-upload/zipball/ab90809d8adbb6b98d67067d5795f486d40b8896",
+                "reference": "ab90809d8adbb6b98d67067d5795f486d40b8896",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
             "support": {
                 "source": "https://github.com/gemanzo/nova-s3-multipart-upload/tree/master"
             },
-            "time": "2025-02-24T10:06:51+00:00"
+            "time": "2025-04-29T08:42:13+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -4404,16 +4404,16 @@
         },
         {
             "name": "marshmallow/nova-tiptap",
-            "version": "5.2.0",
+            "version": "5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marshmallow-packages/nova-tiptap.git",
-                "reference": "2b6d5922c510589b3fe1cc7591161a9b8e59cf0b"
+                "reference": "3db5870afe6a5cf75c3cfeba0b59ca016529935d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marshmallow-packages/nova-tiptap/zipball/2b6d5922c510589b3fe1cc7591161a9b8e59cf0b",
-                "reference": "2b6d5922c510589b3fe1cc7591161a9b8e59cf0b",
+                "url": "https://api.github.com/repos/marshmallow-packages/nova-tiptap/zipball/3db5870afe6a5cf75c3cfeba0b59ca016529935d",
+                "reference": "3db5870afe6a5cf75c3cfeba0b59ca016529935d",
                 "shasum": ""
             },
             "require": {
@@ -4447,9 +4447,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marshmallow-packages/nova-tiptap/issues",
-                "source": "https://github.com/marshmallow-packages/nova-tiptap/tree/5.2.0"
+                "source": "https://github.com/marshmallow-packages/nova-tiptap/tree/5.2.1"
             },
-            "time": "2025-04-24T10:27:21+00:00"
+            "time": "2025-04-29T07:51:14+00:00"
         },
         {
             "name": "matchish/laravel-scout-elasticsearch",
