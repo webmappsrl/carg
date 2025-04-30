@@ -38,8 +38,6 @@ class FeatureCollection extends Resource
         'id',
     ];
 
-    public $type = FeatureCollectionType::GeologyPoints->value;
-
     /**
      * Get the fields displayed by the resource.
      *
@@ -52,7 +50,6 @@ class FeatureCollection extends Resource
             ID::make()->sortable(),
             Select::make('Type')
                 ->options(FeatureCollectionType::asSelectArray())
-                ->withMeta(['value' => $this->type])
                 ->default($this->type),
             ...$this->jsonField($request),
         ];
