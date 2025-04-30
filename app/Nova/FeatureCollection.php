@@ -38,7 +38,6 @@ class FeatureCollection extends Resource
         'id',
     ];
 
-    public $type = FeatureCollectionType::GeologyPoints->value;
 
     /**
      * Get the fields displayed by the resource.
@@ -52,7 +51,6 @@ class FeatureCollection extends Resource
             ID::make()->sortable(),
             Select::make('Type')
                 ->options(FeatureCollectionType::asSelectArray())
-                ->withMeta(['value' => $this->type])
                 ->default($this->type),
             ...$this->jsonField($request),
         ];
@@ -106,7 +104,7 @@ class FeatureCollection extends Resource
     {
         // Assumi che il valore di $resource->features sia il percorso del file JSON.
         // Adatta questa logica se il percorso o il modo in cui salvi i file è diverso.
-        $path = storage_path('app/public/'.$path);
+        $path = storage_path('app/public/' . $path);
         try {
             if (file_exists($path)) {
                 return file_get_contents($path);
@@ -128,7 +126,7 @@ class FeatureCollection extends Resource
                 ->path('feature-collections')
                 ->storeAs(function (Request $request) {
                     // Genera un nome di file univoco
-                    return 'feature-collections-'.md5($request->geojson_path.microtime()).'.json';
+                    return 'feature-collections-' . md5($request->geojson_path . microtime()) . '.json';
                 })
                 ->acceptedTypes('.json')
                 ->hideFromIndex()
@@ -154,7 +152,7 @@ class FeatureCollection extends Resource
                 ->resolveUsing(function ($value, $resource, $attribute) {
                     // Assumi che il valore di $resource->features sia il percorso del file JSON.
                     // Adatta questa logica se il percorso o il modo in cui salvi i file è diverso.
-                    $path = storage_path('app/public/'.$resource->geojson_path);
+                    $path = storage_path('app/public/' . $resource->geojson_path);
                     try {
                         if (file_exists($path)) {
                             return file_get_contents($path);
