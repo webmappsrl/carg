@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Wm\WmPackage\Models\User as WmUser;
 
-class User extends Authenticatable
+class User extends WmUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
