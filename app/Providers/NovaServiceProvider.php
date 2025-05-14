@@ -46,6 +46,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(UgcPoi::class),
                     MenuItem::resource(UgcTrack::class),
                 ])->icon('users')->collapsable(),
+                MenuSection::make('Tools', [
+                    MenuItem::externalLink('Horizon', url('/horizon'))->openInNewTab(),
+                    MenuItem::externalLink('Telescope', url('/telescope'))->openInNewTab(),
+                ])->icon('briefcase')->canSee(function (Request $request) {
+                    return $request->user()->email === 'admin@webmapp.it';
+                }),
             ];
         });
     }
