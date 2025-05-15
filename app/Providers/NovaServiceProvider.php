@@ -4,13 +4,18 @@ namespace App\Providers;
 
 use App\Nova\ConfFeatureCollection;
 use App\Nova\FeatureCollection;
+use App\Nova\Media;
 use App\Nova\Sheet;
+use App\Nova\UgcPoi;
+use App\Nova\UgcTrack;
+use App\Nova\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Wm\WmPackage\Nova\App;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -25,6 +30,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::withBreadcrumbs(true);
         Nova::mainMenu(function (Request $request) {
             return [
+                MenuSection::make(' ', [
+                    MenuItem::resource(App::class),
+                    MenuItem::resource(User::class),
+                    MenuItem::resource(Media::class),
+                ])->icon(''),
                 MenuSection::make('Settings', [
                     MenuItem::resource(ConfFeatureCollection::class),
                 ])->icon('adjustments')->collapsable(),
@@ -32,6 +42,16 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Sheet::class),
                     MenuItem::resource(FeatureCollection::class),
                 ])->icon('database')->collapsable(),
+                MenuSection::make('UGC', [
+                    MenuItem::resource(UgcPoi::class),
+                    MenuItem::resource(UgcTrack::class),
+                ])->icon('users')->collapsable(),
+                MenuSection::make('Tools', [
+                    MenuItem::externalLink('Horizon', url('/horizon'))->openInNewTab(),
+                    MenuItem::externalLink('Telescope', url('/telescope'))->openInNewTab(),
+                ])->icon('briefcase')->canSee(function (Request $request) {
+                    return $request->user()->email === 'admin@webmapp.it';
+                }),
             ];
         });
     }
