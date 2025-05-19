@@ -26,9 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('ugc_tracks', function (Blueprint $table) {
+        Schema::table('media', function (Blueprint $table) {
             $table->dropForeign('media_app_id_foreign');
-            $table->dropForeign('ugc_tracks_user_id_foreign');
+            $table->dropForeign('media_user_id_foreign');
         });
     }
 };

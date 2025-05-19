@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->timestamps();
             $table->string('carg_code')->nullable();
-            $table->multiPolygon('geometry')->nullable();
+            $table->geography('geometry', 'MultiPolygon')->nullable();
         });
     }
 
