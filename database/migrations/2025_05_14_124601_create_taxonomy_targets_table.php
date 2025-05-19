@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,15 +14,14 @@ return new class extends Migration
     {
         Schema::create('taxonomy_targets', function (Blueprint $table) {
             $table->id('id');
-            
+
             $table->text('name');
             $table->text('description')->nullable();
             $table->string('excerpt')->nullable();
-            
+
             $table->text('identifier')->nullable()->unique();
             $table->timestamps();
             $table->jsonb('properties')->nullable();
-
         });
     }
 
