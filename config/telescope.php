@@ -108,7 +108,6 @@ return [
     |
     */
 
-
     'only_paths' => [
         // 'api/*',
     ],
