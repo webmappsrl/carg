@@ -31,7 +31,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::make(' ', [
-                    MenuItem::resource(App::class),
+                    MenuItem::resource(App::class)->canSee(function (Request $request) {
+                        return $request->user()->email === 'admin@webmapp.it';
+                    }),
                     MenuItem::resource(User::class),
                     MenuItem::resource(Media::class),
                 ])->icon(''),
