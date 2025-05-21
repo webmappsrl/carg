@@ -1,6 +1,6 @@
 <?php
 
-namespace Wm\WmPackage\Nova;
+namespace App\Nova;
 
 use Wm\WmPackage\Nova\App as WmNovaApp;
 
