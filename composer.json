@@ -15,6 +15,7 @@
         "laravel/framework": "^11.0",
         "laravel/nova": "^5.0",
         "laravel/sanctum": "^4.0",
+        "laravel/telescope": "^5.7",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.12",
         "league/flysystem-sftp-v3": "^3.0",
@@ -63,7 +64,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
