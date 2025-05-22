@@ -35,7 +35,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                         return $request->user()->email === 'admin@webmapp.it';
                     }),
                     MenuItem::resource(User::class),
-                    MenuItem::resource(Media::class),
                 ])->icon(''),
                 MenuSection::make('Settings', [
                     MenuItem::resource(ConfFeatureCollection::class),
