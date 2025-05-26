@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Repeater\Presets\JSON;
+use Wm\WmPackage\Models\App;
+use Wm\WmPackage\Services\StorageService;
 
 class FeatureCollectionController extends Controller
 {
@@ -20,9 +22,9 @@ class FeatureCollectionController extends Controller
 
     public function generateConf()
     {
-        $url = 'https://geohub.webmapp.it/api/app/webmapp/55/base-config.json';
-        $jsonContent = file_get_contents($url);
-        $geohubConfig = json_decode($jsonContent, true);
+        $storageService = new StorageService();
+        $appId = 1;
+        $config = json_decode($storageService->getAppConfigJson($appId), true);
 
         // Ottieni i tuoi dati locali da ConfFeatureCollectio
         $confFeatureCollections = ConfFeatureCollection::all()->sortBy('id');
@@ -59,8 +61,8 @@ class FeatureCollectionController extends Controller
 
             return $convertedItem;
         });
-        $geohubConfig['MAP']['controls']['overlays'] = $confFeatureCollections->values()->all();
-        $geohubConfig['MAP']['controls']['tiles'] = json_decode(<<<JSON
+        $config['MAP']['controls']['overlays'] = $confFeatureCollections->values()->all();
+        $config['MAP']['controls']['tiles'] = json_decode(<<<JSON
         [
             {
             "label": { "it": "Tipo di mappa", "en": "Map type" },
@@ -86,20 +88,20 @@ class FeatureCollectionController extends Controller
             }
         ]
         JSON, true);
-        $geohubConfig['MAP']['tiles'] = json_decode(<<<'JSON'
+        $config['MAP']['tiles'] = json_decode(<<<'JSON'
         {"base": "https://tiles.webmapp.it/webmappnohiking/{z}/{x}/{y}.png"},
         {"satellite": "https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=0Z7ou7nfFFXipdDXHChf"}
         JSON, true);
-        $geohubConfig['MAP']['minZoom'] = 5;
-        $geohubConfig['MAP']['maxZoom'] = 17;
-        $geohubConfig['MAP']['defZoom'] = 6;
-        $geohubConfig['MAP']['bbox'] = [6.7499552751, 36.619987291, 18.4802470232, 47.1153931748];
-        $geohubConfig['MAP']['attribution'] = false;
-        $geohubConfig['MAP']['hitMapUrl'] = 'https://carg.maphub.it/api/sheets.json';
+        $config['MAP']['minZoom'] = 5;
+        $config['MAP']['maxZoom'] = 17;
+        $config['MAP']['defZoom'] = 6;
+        $config['MAP']['bbox'] = [6.7499552751, 36.619987291, 18.4802470232, 47.1153931748];
+        $config['MAP']['attribution'] = false;
+        $config['MAP']['hitMapUrl'] = 'https://carg.maphub.it/api/sheets.json';
 
-        Storage::disk('wmfeconf')->put('55.json', json_encode($geohubConfig));
+        $storageService->storeAppConfig($appId, json_encode($config));
 
-        return $geohubConfig;
+        return $config;
     }
 
     public function conf()
