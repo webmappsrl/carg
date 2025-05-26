@@ -1,3 +1,4 @@
+
 name: Check and fix styles
 
 on:
@@ -14,16 +15,23 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }} ##reference the name of the branch that triggered the workflow
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: Install dependencies
+        run: composer install --no-progress --no-interaction
 
       - name: Run php-cs-fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: --config=.php-cs-fixer.dist.php --allow-risky=yes
+        run: ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Check and fix styling
+          commit_message: style: fix code styling
