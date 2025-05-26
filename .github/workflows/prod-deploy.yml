@@ -20,4 +20,4 @@ jobs:
           username: ${{ secrets.USERNAMEPROD }}
           port: ${{ secrets.PORTPROD }}
           key: ${{ secrets.SSHKEYPROD }}
-          script: "cd /root/html/carg && git pull && docker exec php81_carg bash scripts/deploy_prod.sh"
+          script: "cd /root/html/carg && git config --global --add safe.directory /root/html/carg && git config --global --add safe.directory /root/html/carg/wm-package && git pull && docker exec php81_carg bash scripts/deploy_prod.sh"
