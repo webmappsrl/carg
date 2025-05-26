@@ -15,7 +15,7 @@ php artisan config:clear
 # Clear the old cache
 php artisan clear-compiled
 php artisan optimize
-php artisan migrate
+php artisan migrate --force
 
 php artisan up
 
