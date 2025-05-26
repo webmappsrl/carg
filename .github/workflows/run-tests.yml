@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgis/postgis:14-3.3
+        image: postgis/postgis:17-3.5-alpine
         env:
           POSTGRES_PASSWORD: carg
           POSTGRES_DB: carg
