@@ -29,7 +29,8 @@ RUN chown -R www-data:www-data /var/www \
         vim \
         libzip-dev \
 	    libwebp-dev \
-        libpq-dev 
+        libpq-dev \
+        postgresql-client 
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-configure intl \
     && docker-php-ext-install -j$(nproc) \
