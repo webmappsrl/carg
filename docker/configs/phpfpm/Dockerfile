@@ -30,7 +30,14 @@ RUN chown -R www-data:www-data /var/www \
         libzip-dev \
 	    libwebp-dev \
         libpq-dev \
-        postgresql-client 
+        postgresql-common
+
+RUN /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -v 17 \
+    && apt-get install -y postgresql-client-17 \
+    && update-alternatives --install /usr/bin/pg_dump pg_dump /usr/lib/postgresql/17/bin/pg_dump 100 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-configure intl \
     && docker-php-ext-install -j$(nproc) \
