@@ -72,7 +72,7 @@ return [
             'url'    => env('APP_URL') . '/tiles',
             'visibility' => 'public',
         ],
-        's3' => [
+        'cargziptiles' => [
             'driver' => 's3',
             'key' => env('AWS_CARGZIPTILES_ACCESS_KEY_ID'),
             'secret' => env('AWS_CARGZIPTILES_SECRET_ACCESS_KEY'),

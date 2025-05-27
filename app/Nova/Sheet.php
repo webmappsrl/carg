@@ -52,6 +52,7 @@ class Sheet extends Resource
                 ->rules('required', 'max:255'),
             NovaS3MultipartUpload::make('Zip Raster', 'file')
                 ->keepOriginalName()
+                ->disk('cargziptiles')
                 ->restrictions([
                     'maxFileSize' => 1024 * 1024 * 1024,
                     'minFileSize' => 50 * 1024,

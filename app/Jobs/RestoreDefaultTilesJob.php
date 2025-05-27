@@ -32,7 +32,6 @@ class RestoreDefaultTilesJob implements ShouldQueue
         $logger = Log::channel('rasters');
         $carg = Storage::disk('carg');
         $blankmap = Storage::disk('blankmap');
-        $s3 = Storage::disk('s3');
 
         $dirName = Str::before($this->sheet->file, '.zip');
 
@@ -44,7 +43,7 @@ class RestoreDefaultTilesJob implements ShouldQueue
 
         // Controlla se la directory esiste nel disco carg
         if (! $carg->exists($dirName)) {
-            $logger->error('Directory '.$dirName.' not found in carg disk');
+            $logger->error('Directory ' . $dirName . ' not found in carg disk');
 
             return; // Esce dal job se la directory non esiste
         }
@@ -59,7 +58,7 @@ class RestoreDefaultTilesJob implements ShouldQueue
                     continue; // Salta i percorsi potenzialmente problematici
                 }
 
-                $blankmapPath = str_replace($dirName.'/', '', $cargPath); // Percorso relativo nel disco blankmap
+                $blankmapPath = str_replace($dirName . '/', '', $cargPath); // Percorso relativo nel disco blankmap
 
                 // Verifica se il file di default esiste nella mappa muta (blankmap)
                 if ($blankmap->exists($blankmapPath)) {
@@ -79,7 +78,7 @@ class RestoreDefaultTilesJob implements ShouldQueue
             $logger->info('Cancellazione dello zip originale su S3 completata');
         } catch (\Exception $e) {
             // Registra l'errore nel log
-            $logger->error('Errore durante l\'iterazione dei file: '.$e->getMessage());
+            $logger->error('Errore durante l\'iterazione dei file: ' . $e->getMessage());
             throw $e;
         }
     }
