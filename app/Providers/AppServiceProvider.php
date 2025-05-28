@@ -3,11 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Sheet;
+use Wm\WmPackage\Models\App;
 use App\Observers\SheetObserver;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\AppFeatureCollectionConfigObserver;
 
-class AppServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProviderå
 {
     /**
      * Register any application services.
