@@ -8,7 +8,7 @@ use App\Observers\SheetObserver;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\AppFeatureCollectionConfigObserver;
 
-class AppServiceProvider extends ServiceProviderå
+class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
