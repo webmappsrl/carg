@@ -72,31 +72,42 @@ return [
             'url'    => env('APP_URL') . '/tiles',
             'visibility' => 'public',
         ],
-        'cargziptiles' => [
+        'cargziptiles_legacy' => [
             'driver' => 's3',
             'key' => env('AWS_CARGZIPTILES_ACCESS_KEY_ID'),
             'secret' => env('AWS_CARGZIPTILES_SECRET_ACCESS_KEY'),
             'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_CARGZIPTILES_BUCKET'),
+            'bucket' => env('AWS_CARGZIPTILES_BUCKET', 'cargziptiles'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
 
-        //TODO: REMOVE THIS
-        'wmfeconf' => [
+        'cargziptiles' => [
             'driver' => 's3',
-            'key' => env('AWS_WMFE_ACCESS_KEY_ID'),
-            'secret' => env('AWS_WMFE_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_WMFE_DEFAULT_REGION'),
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => 'wmfe',
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
-            'root' => 'geohub/conf',
+            'root' => 'carg/cargziptiles',
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'visibility' => 'public',
+            'throw' => false,
         ],
 
+        's3_ispra' => [
+            'driver' => 's3',
+            'key' => env('AWS_ISPRA_ACCESS_KEY_ID'),
+            'secret' => env('AWS_ISPRA_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_ISPRA_DEFAULT_REGION', 'eu-central-1'),
+            'bucket' => env('AWS_ISPRA_BUCKET'),
+        ],
     ],
+
+
 
     /*
     |--------------------------------------------------------------------------
