@@ -73,7 +73,7 @@ class CargZipTilesS3Copy extends Command
                         continue;
                     }
 
-                    $success = $targetDisk->putStream($filePath, $stream);
+                    $success = $targetDisk->writeStream($filePath, $stream);
 
                     if (is_resource($stream)) {
                         fclose($stream);
