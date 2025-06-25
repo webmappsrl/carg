@@ -30,7 +30,7 @@ class RestoreDefaultTilesJob implements ShouldQueue
     public function handle(): void
     {
         $logger = Log::channel('rasters');
-        $carg = Storage::disk('carg');
+        $carg = Storage::disk('cargmap');
         $blankmap = Storage::disk('blankmap');
 
         $dirName = Str::before($this->sheet->file, '.zip');

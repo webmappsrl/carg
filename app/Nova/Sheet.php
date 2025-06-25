@@ -52,7 +52,8 @@ class Sheet extends Resource
                 ->rules('required', 'max:255'),
             NovaS3MultipartUpload::make('Zip Raster', 'file')
                 ->keepOriginalName()
-                ->disk('cargziptiles')
+                ->disk('s3_ispra')
+                ->server()
                 ->restrictions([
                     'maxFileSize' => 1024 * 1024 * 1024,
                     'minFileSize' => 50 * 1024,
@@ -66,7 +67,7 @@ class Sheet extends Resource
             MapMultiPolygon::make(__('BBOX'), 'geometry')->withMeta([
                 'center' => ['42.795977075', '10.326813853'],
                 'attribution' => 'carg',
-                'tiles' => 'https://tiles.webmapp.it/carg/{z}/{x}/{y}.png',
+                'tiles' => 'https://carg.geosciences-ir.it/storage/cargmap/{z}/{x}/{y}.png',
                 'minZoom' => 6,
             ]),
             HasOne::make(__('Geology Points'), 'geologyPoints', GeologyPointsFeatureCollection::class)

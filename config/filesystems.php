@@ -30,19 +30,23 @@ return [
 
     'disks' => [
 
-        'carg' => [
-            'driver' => 'sftp',
-            'host' => env('TGEN_HOST'),
-            'username' => 'root',
-            'password' => env('TGEN_PASSWORD'),
-            'root' => env('CARG_ROOT'),
-            'port' => 22,
-            'timeout' => 30,
+        'cargmap' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/cargmap'),
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
-            'directory_visibility' => 'public',
+            'throw' => false,
         ],
 
         'blankmap' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/blankmap'),
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'blankmap_legacy' => [
             'driver' => 'sftp',
             'host' => env('TGEN_HOST'),
             'username' => 'root',
@@ -102,8 +106,25 @@ return [
             'driver' => 's3',
             'key' => env('AWS_ISPRA_ACCESS_KEY_ID'),
             'secret' => env('AWS_ISPRA_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_ISPRA_DEFAULT_REGION', 'eu-central-1'),
-            'bucket' => env('AWS_ISPRA_BUCKET'),
+            'region' => env('AWS_ISPRA_DEFAULT_REGION', 'eu-south-1'),
+            'bucket' => env('AWS_ISPRA_BUCKET', 'carg-app'),
+            'url' => env('AWS_ISPRA_URL'),
+            'endpoint' => env('AWS_ISPRA_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_ISPRA_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+        ],
+
+        'wmfe' => [
+            'driver' => 's3',
+            'key' => env('AWS_ISPRA_ACCESS_KEY_ID'),
+            'secret' => env('AWS_ISPRA_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_ISPRA_DEFAULT_REGION', 'eu-south-1'),
+            'bucket' => env('AWS_ISPRA_BUCKET', 'carg-app'),
+            'url' => env('AWS_ISPRA_URL'),
+            'root' => 'wmfe',
+            'endpoint' => env('AWS_ISPRA_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_ISPRA_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
         ],
     ],
 

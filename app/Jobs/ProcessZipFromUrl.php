@@ -30,19 +30,31 @@ class ProcessZipFromUrl implements ShouldQueue
     {
         $logger = Log::channel('push_notifications');
         $tempZipPath = tempnam(sys_get_temp_dir(), 'zip');
-        $zipUrlPath = Storage::disk('cargziptiles')->url($this->zipUrl);
 
-        $logger->info("Attempting to open URL: {$zipUrlPath}");
-        $zipFileStream = @fopen($zipUrlPath, 'r');
+        Log::info("Processing ZIP file: {$this->zipUrl}");
+        $logger->info("Attempting to download file from S3: {$this->zipUrl}");
 
-        if ($zipFileStream === false) {
-            $logger->error("Failed to open file at: {$zipUrlPath}");
+        try {
+            // Check if file exists on S3
+            if (!Storage::disk('s3_ispra')->exists($this->zipUrl)) {
+                $logger->error("File does not exist on S3: {$this->zipUrl}");
+                return;
+            }
 
+            // Download file directly from S3 using Storage facade
+            $zipContent = Storage::disk('s3_ispra')->get($this->zipUrl);
+
+            if ($zipContent === false || $zipContent === null) {
+                $logger->error("Failed to download file content from S3: {$this->zipUrl}");
+                return;
+            }
+
+            file_put_contents($tempZipPath, $zipContent);
+            $logger->info("File downloaded successfully to temp path: {$tempZipPath}");
+        } catch (Exception $e) {
+            $logger->error("Exception while downloading file from S3: {$e->getMessage()}");
             return;
         }
-
-        file_put_contents($tempZipPath, $zipFileStream);
-        fclose($zipFileStream);
 
         $zip = new ZipArchive;
 
@@ -52,7 +64,7 @@ class ProcessZipFromUrl implements ShouldQueue
             $zip->close();
             $logger->info("temp directory: {$tempDir}");
             // Continua con la tua logica di unione dei contenuti...
-            $this->mergeContents($tempDir, Storage::disk('carg'));
+            $this->mergeContents($tempDir, Storage::disk('cargmap'));
             Storage::deleteDirectory($tempDir);
         } else {
             Log::error("Unable to open the ZIP file from URL: {$zipUrlPath}");
@@ -79,6 +91,7 @@ class ProcessZipFromUrl implements ShouldQueue
                 $logger->info("makeDirectory: {$relativePath}");
                 $disk->makeDirectory($relativePath, 0755, true);
             } else {
+                Log::info("file extension: {$fileInfo->getExtension()}");
                 // Verifica che l'estensione sia '.png'
                 if ($fileInfo->getExtension() === 'png') {
                     // Leggi il file dalla directory sorgente
