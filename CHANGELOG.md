@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.0 (2025-06-27)
+
+
+### Features
+
+* **observers:** add AppFeatureCollectionConfigObserver to handle App saved event OC:5611 ([7b40860](https://github.com/webmappsrl/carg/commit/7b4086077862dceac9c4ccefb72a9036eeae9a9e))
+
+
+### Bug Fixes
+
+* **command:** 🐛 update stream writing method in CargZipTilesS3Copy command ([354a315](https://github.com/webmappsrl/carg/commit/354a315918ae08f1d4be6704cbe51cd211f35e85))
+* **dev-deploy:** 🐛 update docker exec command for development deployment ([cb2f578](https://github.com/webmappsrl/carg/commit/cb2f5784975fb3df9b3c846521908018118d2b9d))
+* **ExampleTest:** update test to assert redirect to login ([dbd0ab6](https://github.com/webmappsrl/carg/commit/dbd0ab602578b3c6b9e19a5a58861d59eb33b83b))
+* typo ([59c85a7](https://github.com/webmappsrl/carg/commit/59c85a779f3d830fecce3d7a8bc92583aa89279a))
+
+
+### Miscellaneous Chores
+
+* **AppServiceProvider:** 🔧 add App model import ([d250876](https://github.com/webmappsrl/carg/commit/d2508769f7ddca69ee1d4416d0bbbf0bc3baaa7c))
+* **filesystems:** 🔧 change wmfe storage configuration from S3 to local ([e0830d2](https://github.com/webmappsrl/carg/commit/e0830d2df9f0ae6fb10c5327a1c5bacff5ac2df9))
+
 ## 1.0.0 (2024-04-03)
 
 
