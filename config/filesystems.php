@@ -39,11 +39,13 @@ return [
         ],
 
         'blankmap' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/blankmap'),
-            'url' => env('APP_URL') . '/storage',
-            'visibility' => 'public',
-            'throw' => false,
+            'driver' => 'sftp',
+            'host' => env('TGEN_HOST'),
+            'username' => 'root',
+            'password' => env('TGEN_PASSWORD'),
+            'root' => env('CARG _ROOT'),
+            'port' => 22,
+            'timeout' => 30,
         ],
 
         'blankmap_legacy' => [
