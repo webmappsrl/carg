@@ -20,15 +20,17 @@ class ProcessZipFromUrl implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, IsMonitored;
 
     protected $zipUrl;
+    protected $reset;
 
-    public function __construct($zipUrl)
+    public function __construct($zipUrl, $reset = false)
     {
         $this->zipUrl = $zipUrl;
+        $this->reset = $reset;
     }
 
     public function handle()
     {
-        $logger = Log::channel('push_notifications');
+        $logger = Log::channel('rasters');
         $tempZipPath = tempnam(sys_get_temp_dir(), 'zip');
 
         Log::info("Processing ZIP file: {$this->zipUrl}");
@@ -63,8 +65,16 @@ class ProcessZipFromUrl implements ShouldQueue
             $zip->extractTo($tempDir);
             $zip->close();
             $logger->info("temp directory: {$tempDir}");
-            // Continua con la tua logica di unione dei contenuti...
-            $this->mergeContents($tempDir, Storage::disk('cargmap'));
+
+            // Se reset è true, elimina i file, altrimenti fai il merge
+            if ($this->reset) {
+                $logger->info("Reset mode: deleting files from cargmap disk");
+                $this->deleteContents($tempDir, Storage::disk('cargmap'));
+            } else {
+                $logger->info("Merge mode: copying files to cargmap disk");
+                $this->mergeContents($tempDir, Storage::disk('cargmap'));
+            }
+
             Storage::deleteDirectory($tempDir);
         } else {
             Log::error("Unable to open the ZIP file from URL: {$zipUrlPath}");
@@ -75,7 +85,7 @@ class ProcessZipFromUrl implements ShouldQueue
 
     protected function mergeContents($sourceDir, $disk)
     {
-        $logger = Log::channel('push_notifications');
+        $logger = Log::channel('rasters');
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS),
             RecursiveIteratorIterator::SELF_FIRST
@@ -112,5 +122,41 @@ class ProcessZipFromUrl implements ShouldQueue
                 }
             }
         }
+    }
+
+    protected function deleteContents($sourceDir, $disk)
+    {
+        $logger = Log::channel('rasters');
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+        $logger->info("deleteContents sourceDir: {$sourceDir}");
+
+        foreach ($files as $fileInfo) {
+            $relativePath = str_replace('Mapnik' . DIRECTORY_SEPARATOR, '', $files->getSubPathName());
+            $logger->info("deleteContents relativePath: {$relativePath}");
+
+            // Salta le directory non numeriche come fa mergeContents
+            if ($fileInfo->isDir() && ! is_numeric(basename($relativePath))) {
+                continue;
+            }
+
+            // Se è un file con estensione .png, eliminalo dal disco
+            if ($fileInfo->isFile() && $fileInfo->getExtension() === 'png') {
+                if ($disk->exists($relativePath)) {
+                    try {
+                        $disk->delete($relativePath);
+                        $logger->info("Deleted file: {$relativePath}");
+                    } catch (Exception $e) {
+                        $logger->error("Error deleting file {$relativePath}: {$e->getMessage()}");
+                    }
+                } else {
+                    $logger->info("File does not exist (skipping): {$relativePath}");
+                }
+            }
+        }
+
+        $logger->info("Delete operation completed");
     }
 }

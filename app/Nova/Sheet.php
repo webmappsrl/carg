@@ -145,6 +145,7 @@ class Sheet extends Resource
     {
         return [
             new Actions\DispatchProcessZipFromUrl,
+            new Actions\DispatchProcessZipFromUrlReset,
         ];
     }
 }
