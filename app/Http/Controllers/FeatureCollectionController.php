@@ -15,7 +15,7 @@ class FeatureCollectionController extends Controller
 {
     public function get($name)
     {
-        $geojson = Storage::disk('public')->get('feature-collections/'.$name);
+        $geojson = Storage::disk('public')->get('feature-collections/' . $name);
 
         return $geojson;
     }
@@ -41,7 +41,7 @@ class FeatureCollectionController extends Controller
                     $value = $this->convertToCamelCase($value);
                 }
                 if ($key === 'svg_path' && $value !== null) {
-                    $filePath = storage_path('app/public/'.$value);
+                    $filePath = storage_path('app/public/' . $value);
                     if (file_exists($filePath)) {
                         // Leggi il contenuto dell'SVG e aggiungilo all'attributo 'icon'
                         $convertedItem['icon'] = file_get_contents($filePath);
@@ -97,7 +97,7 @@ class FeatureCollectionController extends Controller
         $config['MAP']['defZoom'] = 6;
         $config['MAP']['bbox'] = [6.7499552751, 36.619987291, 18.4802470232, 47.1153931748];
         $config['MAP']['attribution'] = false;
-        $config['MAP']['hitMapUrl'] = 'https://carg.maphub.it/api/sheets.json';
+        $config['MAP']['hitMapUrl'] = 'https://carg.geosciences-ir.it/api/sheets.json';
 
         $storageService->storeAppConfig($appId, json_encode($config));
 
