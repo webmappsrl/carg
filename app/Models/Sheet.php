@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\FeatureCollectionType;
-use App\Jobs\RestoreDefaultTilesJob;
+use App\Jobs\ProcessZipFromUrl;
 use App\Models\FeatureCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,11 +22,9 @@ class Sheet extends Model
     {
         parent::boot();
 
-        static::updating(function ($sheet) {
-            $isRasterDeleted = $sheet->isDirty('file') && $sheet->getOriginal('file') !== null && $sheet->file === null;
-
-            if ($isRasterDeleted) {
-                RestoreDefaultTilesJob::dispatch($sheet);
+        static::deleting(function ($sheet) {            
+            if($sheet->file !== null) {
+                ProcessZipFromUrl::dispatch($sheet->file, true);
             }
         });
     }
