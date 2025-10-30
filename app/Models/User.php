@@ -41,5 +41,6 @@ class User extends WmUser
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'properties' => 'array',
     ];
 }
