@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.0.0 (2025-11-04)
+
+
+### Features
+
+* **api:** ✨ add new UGC and Media API controllers ([#17](https://github.com/webmappsrl/carg/issues/17)) ([15abeb9](https://github.com/webmappsrl/carg/commit/15abeb900893bcc50fbbd5d3be0d401c2d1158a7))
+* **console:** ✨ add ProcessAllSheetsZip command oc:6493 ([#16](https://github.com/webmappsrl/carg/issues/16)) ([ba13348](https://github.com/webmappsrl/carg/commit/ba13348fb94ade807dfb7b97d938fbd2e3f12125))
+* **models:** ✨ add 'properties' attribute casting to User model ([f1437fb](https://github.com/webmappsrl/carg/commit/f1437fb01615d49fb85e0b0dbd2277503d0f70ba))
+* **observers:** add AppFeatureCollectionConfigObserver to handle App saved event OC:5611 ([7b40860](https://github.com/webmappsrl/carg/commit/7b4086077862dceac9c4ccefb72a9036eeae9a9e))
+* **server:** ✨ serve files from /storage directly without Laravel ([45e9e71](https://github.com/webmappsrl/carg/commit/45e9e7142a5309c7943e33c18d1c2f579d509017))
+
+
+### Bug Fixes
+
+* **command:** 🐛 update stream writing method in CargZipTilesS3Copy command ([354a315](https://github.com/webmappsrl/carg/commit/354a315918ae08f1d4be6704cbe51cd211f35e85))
+* **dev-deploy:** 🐛 update docker exec command for development deployment ([cb2f578](https://github.com/webmappsrl/carg/commit/cb2f5784975fb3df9b3c846521908018118d2b9d))
+* **ExampleTest:** update test to assert redirect to login ([dbd0ab6](https://github.com/webmappsrl/carg/commit/dbd0ab602578b3c6b9e19a5a58861d59eb33b83b))
+* **filesystems:** 🐛 update blankmap storage configuration to SFTP ([47e35ef](https://github.com/webmappsrl/carg/commit/47e35ef9e8a6aa0c4a215550906ee2655719b217))
+* **nova:** 🐛 comment out email for user access control ([092a5d2](https://github.com/webmappsrl/carg/commit/092a5d20cd1f79401cedbccc146bd6d4338cdf18))
+* typo ([59c85a7](https://github.com/webmappsrl/carg/commit/59c85a779f3d830fecce3d7a8bc92583aa89279a))
+
+
+### Miscellaneous Chores
+
+* **AppServiceProvider:** 🔧 add App model import ([d250876](https://github.com/webmappsrl/carg/commit/d2508769f7ddca69ee1d4416d0bbbf0bc3baaa7c))
+* **filesystems:** 🔧 change wmfe storage configuration from S3 to local ([e0830d2](https://github.com/webmappsrl/carg/commit/e0830d2df9f0ae6fb10c5327a1c5bacff5ac2df9))
+
 ## 1.0.0 (2024-04-03)
 
 
